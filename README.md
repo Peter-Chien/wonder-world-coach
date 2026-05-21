@@ -2,31 +2,22 @@
 
 康軒 Wonder World 4 英文練習原型。現在先用 2026 年 5 月下旬推估進度：Unit 4 主練，Unit 3 複習。
 
-## 家裡平板使用
+## 在家裡 Ubuntu 安裝
 
-同一個 Wi-Fi / 區網下可開：
-
-- `http://192.168.52.147:4173/`
-- `http://D620MT-D620SF-BM3CF.local:4173/`
-
-如果 IP 變動，優先試 `.local` 網址。
-
-## 搬到家裡 Ubuntu 安裝
-
-把整個 `wonder-world-coach` 目錄或打包檔搬到家裡 Ubuntu 後執行：
+家裡電腦是 Ubuntu 時，直接從 GitHub 下載並安裝：
 
 ```bash
-tar -xzf wonder-world-coach-ubuntu.tar.gz
+git clone https://github.com/Peter-Chien/wonder-world-coach.git
 cd wonder-world-coach
 ./install-ubuntu-user-service.sh
 ```
 
-安裝後腳本會顯示平板可連的網址，通常是：
+安裝腳本會：
 
-```text
-http://家裡電腦IP:4173/
-http://家裡電腦主機名.local:4173/
-```
+- 複製 AP 到 `~/apps/wonder-world-coach`
+- 建立使用者層 systemd service
+- 啟動 `wonder-world-coach.service`
+- 顯示平板可連的區網網址
 
 若要讓服務在尚未登入桌面時也啟動，可再執行：
 
@@ -34,32 +25,77 @@ http://家裡電腦主機名.local:4173/
 sudo loginctl enable-linger $(whoami)
 ```
 
+## 家裡平板使用
+
+安裝完成後，腳本會顯示類似下面的網址：
+
+```text
+http://家裡電腦IP:4173/
+http://家裡電腦主機名.local:4173/
+```
+
+平板和家裡 Ubuntu 電腦要連在同一個 Wi-Fi / 區網。若 `.local` 網址打不開，改用 IP 網址。
+
+## 發音方式
+
+目前不需要另外準備音檔。AP 使用瀏覽器內建英文語音合成 `speechSynthesis` 發音，所以 Chrome、Edge、Safari 通常可以直接唸。
+
+若之後有康軒官方合法音檔，可以改成：
+
+- 優先播放官方音檔
+- 沒有音檔時才使用瀏覽器 TTS
+
+## 更新版本
+
+之後如果 GitHub repo 有更新，家裡 Ubuntu 可以重新拉最新版再安裝：
+
+```bash
+cd wonder-world-coach
+git pull
+./install-ubuntu-user-service.sh
+```
+
+## 離線搬移安裝
+
+如果家裡 Ubuntu 沒有網路或不能連 GitHub，才需要使用 `wonder-world-coach-ubuntu.tar.gz` 離線包：
+
+```bash
+tar -xzf wonder-world-coach-ubuntu.tar.gz
+cd wonder-world-coach
+./install-ubuntu-user-service.sh
+```
+
+## 管理服務
+
 檢查服務：
 
 ```bash
 systemctl --user status wonder-world-coach.service
 ```
 
-## 啟動方式
-
-已建立使用者層 systemd service：
+重新啟動：
 
 ```bash
-systemctl --user status wonder-world-coach.service
 systemctl --user restart wonder-world-coach.service
 ```
 
-服務檔：
-
-```text
-/home/peter/.config/systemd/user/wonder-world-coach.service
-```
-
-手動啟動腳本：
+停止服務：
 
 ```bash
-/home/peter/git/openclaw/apps/wonder-world-coach/start-lan.sh 0.0.0.0 4173
+systemctl --user stop wonder-world-coach.service
 ```
+
+手動啟動也可以使用：
+
+```bash
+./start-lan.sh 0.0.0.0 4173
+```
+
+## 目前狀態
+
+- 這是可在家裡區網使用的第一版原型。
+- 教材內容目前是示範資料，沒有直接複製正式課本內容。
+- 正式 Wonder World 4 單字、句型、課文與音檔需要 Peter 之後提供合法來源後再補入。
 
 ## 尚待補齊
 
