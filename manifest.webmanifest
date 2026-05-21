@@ -1,0 +1,19 @@
+{
+  "name": "Wonder World Coach",
+  "short_name": "WW Coach",
+  "description": "康軒 Wonder World 4 英文練習小教練",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fffdf8",
+  "theme_color": "#12333f",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

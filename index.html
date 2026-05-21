@@ -1,0 +1,877 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#12333f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="WW Coach" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="./icon.svg" />
+  <title>Wonder World Coach</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1f2a37;
+      --muted: #667085;
+      --line: #d8dee8;
+      --paper: #fffdf8;
+      --panel: #ffffff;
+      --mint: #47b881;
+      --sky: #2f80ed;
+      --coral: #f97066;
+      --amber: #f2a93b;
+      --violet: #7c5cff;
+      --shadow: 0 12px 32px rgba(31, 42, 55, .12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        linear-gradient(135deg, rgba(71, 184, 129, .16), rgba(47, 128, 237, .12)),
+        var(--paper);
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+      color: inherit;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+    }
+
+    aside {
+      background: #12333f;
+      color: #f8fbfc;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .brand {
+      display: grid;
+      gap: 6px;
+    }
+
+    .brand h1 {
+      font-size: 24px;
+      margin: 0;
+      letter-spacing: 0;
+    }
+
+    .brand p, .small {
+      color: rgba(248, 251, 252, .72);
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .progressBox {
+      display: grid;
+      gap: 12px;
+      padding: 14px;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 8px;
+    }
+
+    .progressTop {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+
+    .bar {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .18);
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #8ee6b4, #68d8f7);
+      transition: width .25s ease;
+    }
+
+    nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .unitBtn {
+      width: 100%;
+      text-align: left;
+      padding: 12px;
+      background: transparent;
+      color: rgba(248, 251, 252, .82);
+      border: 1px solid rgba(255, 255, 255, .12);
+    }
+
+    .unitBtn.active {
+      color: #12333f;
+      background: #f8fbfc;
+    }
+
+    main {
+      padding: 28px;
+      display: grid;
+      gap: 22px;
+      align-content: start;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .headline h2 {
+      margin: 0 0 6px;
+      font-size: clamp(26px, 4vw, 42px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    .headline p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #fff7e8;
+      color: #8a5208;
+      border: 1px solid #f6d89c;
+      white-space: nowrap;
+      font-size: 14px;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(280px, .92fr);
+      gap: 18px;
+    }
+
+    .panel {
+      background: rgba(255, 255, 255, .9);
+      border: 1px solid rgba(216, 222, 232, .9);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panelHead {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .panelHead h3 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .panelBody {
+      padding: 18px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .primary {
+      background: var(--sky);
+      color: white;
+      padding: 10px 14px;
+    }
+
+    .ghost {
+      background: #eef4ff;
+      color: #2458a7;
+      padding: 10px 14px;
+    }
+
+    .quiet {
+      background: #f3f5f8;
+      color: #344054;
+      padding: 9px 12px;
+    }
+
+    .danger {
+      background: #fff1f0;
+      color: #b42318;
+      padding: 9px 12px;
+    }
+
+    .wordCard {
+      min-height: 300px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 18px;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(71, 184, 129, .2), transparent 28%),
+        radial-gradient(circle at 82% 72%, rgba(242, 169, 59, .18), transparent 30%),
+        #ffffff;
+    }
+
+    .emoji {
+      font-size: clamp(60px, 12vw, 112px);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .word {
+      font-size: clamp(42px, 8vw, 74px);
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 1;
+      margin: 0 0 10px;
+    }
+
+    .meaning {
+      color: var(--muted);
+      font-size: 20px;
+      margin: 0;
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      padding: 8px;
+      background: #edf1f6;
+      border-radius: 8px;
+    }
+
+    .tab {
+      padding: 10px 8px;
+      background: transparent;
+      color: #475467;
+    }
+
+    .tab.active {
+      background: #ffffff;
+      color: var(--ink);
+      box-shadow: 0 2px 8px rgba(31, 42, 55, .08);
+    }
+
+    .gameArea {
+      min-height: 280px;
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .choice {
+      min-height: 56px;
+      padding: 12px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      text-align: left;
+    }
+
+    .choice.correct {
+      border-color: var(--mint);
+      background: #ebfff4;
+    }
+
+    .choice.wrong {
+      border-color: var(--coral);
+      background: #fff3f2;
+    }
+
+    .spellInput {
+      width: 100%;
+      min-height: 52px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      font-size: 22px;
+    }
+
+    .tiles, .sentenceSlots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      min-height: 56px;
+      padding: 10px;
+      border-radius: 8px;
+      background: #f6f8fb;
+      border: 1px dashed #c8d2df;
+    }
+
+    .tile {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      padding: 10px 12px;
+    }
+
+    .log {
+      display: grid;
+      gap: 10px;
+    }
+
+    .task {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    .task strong {
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .task span {
+      color: var(--muted);
+    }
+
+    .score {
+      font-weight: 800;
+      color: var(--sky);
+      white-space: nowrap;
+    }
+
+    .feedback {
+      min-height: 26px;
+      color: #2458a7;
+      font-weight: 700;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 860px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        position: static;
+      }
+
+      main {
+        padding: 18px;
+      }
+
+      .topbar, .dashboard {
+        grid-template-columns: 1fr;
+        display: grid;
+      }
+
+      .badge {
+        white-space: normal;
+      }
+
+      .tabs, .choices {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .tabs, .choices {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        display: grid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand">
+        <h1>Wonder World Coach</h1>
+        <p>康軒 Wonder World 4 推估進度版</p>
+      </div>
+
+      <div class="progressBox">
+        <div class="progressTop">
+          <strong>今日 10 分鐘</strong>
+          <span id="dailyScore">0 / 5</span>
+        </div>
+        <div class="bar"><span id="dailyBar"></span></div>
+        <p class="small">目前先以 5 月下旬推估：Unit 4 主練，Unit 3 複習。</p>
+      </div>
+
+      <nav id="unitNav"></nav>
+
+      <p class="small">之後只要補正式單字、句型、音檔，就能更新到不同學期。</p>
+    </aside>
+
+    <main>
+      <div class="topbar">
+        <div class="headline">
+          <h2 id="unitTitle">At the Zoo</h2>
+          <p id="unitSub">Plural nouns · Animal homes</p>
+        </div>
+        <div class="badge" id="paceBadge">推估進度：Unit 4 / Review 2 前後</div>
+      </div>
+
+      <section class="dashboard">
+        <div class="panel">
+          <div class="panelHead">
+            <h3>單字卡</h3>
+            <div class="actions">
+              <button class="quiet" id="prevWord" title="上一張">←</button>
+              <button class="quiet" id="nextWord" title="下一張">→</button>
+            </div>
+          </div>
+          <div class="wordCard">
+            <div>
+              <div class="emoji" id="wordEmoji">🦁</div>
+              <p class="word" id="wordText">lion</p>
+              <p class="meaning" id="wordMeaning">獅子</p>
+            </div>
+          </div>
+          <div class="panelBody">
+            <div class="actions">
+              <button class="primary" id="speakWord">播放發音</button>
+              <button class="ghost" id="markKnown">我會了</button>
+              <button class="quiet" id="startShadow">跟讀錄音</button>
+            </div>
+            <p class="note" id="speechNote">跟讀會使用瀏覽器語音辨識；如果瀏覽器不支援，仍可手動練習與記錄。</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panelHead">
+            <h3>今日任務</h3>
+            <button class="quiet" id="resetProgress">重置</button>
+          </div>
+          <div class="panelBody">
+            <div class="log" id="taskLog"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panelHead">
+          <h3>練習遊戲</h3>
+          <div class="tabs">
+            <button class="tab active" data-game="listen">聽音選字</button>
+            <button class="tab" data-game="spell">拼字</button>
+            <button class="tab" data-game="sentence">句子重組</button>
+            <button class="tab" data-game="review">複習</button>
+          </div>
+        </div>
+        <div class="panelBody">
+          <div class="gameArea" id="gameArea"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const lessons = [
+      {
+        id: "u1",
+        title: "Unit 1 · A Dollhouse for Jello",
+        subtitle: "Rooms · Save Energy",
+        status: "已學過：之後補正式資料",
+        words: [
+          { word: "bedroom", zh: "臥室", emoji: "🛏️" },
+          { word: "kitchen", zh: "廚房", emoji: "🍳" },
+          { word: "bathroom", zh: "浴室", emoji: "🛁" },
+          { word: "living room", zh: "客廳", emoji: "🛋️" }
+        ],
+        sentences: ["Where are you?", "I am in the kitchen."]
+      },
+      {
+        id: "u2",
+        title: "Unit 2 · A Video Call from Boka",
+        subtitle: "Be V-ing · Safety",
+        status: "已學過：之後補正式資料",
+        words: [
+          { word: "reading", zh: "正在閱讀", emoji: "📖" },
+          { word: "running", zh: "正在跑步", emoji: "🏃" },
+          { word: "sleeping", zh: "正在睡覺", emoji: "😴" },
+          { word: "writing", zh: "正在寫字", emoji: "✏️" }
+        ],
+        sentences: ["What are you doing?", "I am reading."]
+      },
+      {
+        id: "u3",
+        title: "Unit 3 · Let's Have Lunch!",
+        subtitle: "Foods · Reduce Food Waste",
+        status: "複習中：搭配 Unit 4 每天回顧",
+        words: [
+          { word: "rice", zh: "飯", emoji: "🍚" },
+          { word: "noodles", zh: "麵", emoji: "🍜" },
+          { word: "soup", zh: "湯", emoji: "🥣" },
+          { word: "chicken", zh: "雞肉", emoji: "🍗" },
+          { word: "fish", zh: "魚", emoji: "🐟" }
+        ],
+        sentences: ["What do you want for lunch?", "I want rice and soup."]
+      },
+      {
+        id: "u4",
+        title: "Unit 4 · At the Zoo",
+        subtitle: "Plural Nouns · Animal Homes",
+        status: "主線：依 5 月下旬推估",
+        words: [
+          { word: "lion", zh: "獅子", emoji: "🦁" },
+          { word: "monkey", zh: "猴子", emoji: "🐒" },
+          { word: "elephant", zh: "大象", emoji: "🐘" },
+          { word: "zebra", zh: "斑馬", emoji: "🦓" },
+          { word: "bear", zh: "熊", emoji: "🐻" },
+          { word: "bird", zh: "鳥", emoji: "🐦" }
+        ],
+        sentences: ["What are these?", "They are lions.", "Where do birds live?"]
+      }
+    ];
+
+    const state = {
+      unitId: localStorage.getItem("wwc_unit") || "u4",
+      wordIndex: Number(localStorage.getItem("wwc_word_index") || 0),
+      game: "listen",
+      done: JSON.parse(localStorage.getItem("wwc_done") || "{}"),
+      sentenceTiles: []
+    };
+
+    const $ = (id) => document.getElementById(id);
+    const unit = () => lessons.find((item) => item.id === state.unitId) || lessons[3];
+    const word = () => unit().words[state.wordIndex % unit().words.length];
+
+    function speak(text) {
+      if (!("speechSynthesis" in window)) return;
+      speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US";
+      utterance.rate = 0.82;
+      speechSynthesis.speak(utterance);
+    }
+
+    function save() {
+      localStorage.setItem("wwc_unit", state.unitId);
+      localStorage.setItem("wwc_word_index", state.wordIndex);
+      localStorage.setItem("wwc_done", JSON.stringify(state.done));
+    }
+
+    function complete(key) {
+      state.done[key] = true;
+      save();
+      renderProgress();
+      renderTasks();
+    }
+
+    function renderNav() {
+      $("unitNav").innerHTML = lessons.map((lesson) => `
+        <button class="unitBtn ${lesson.id === state.unitId ? "active" : ""}" data-unit="${lesson.id}">
+          <strong>${lesson.title.replace(" · ", "<br>")}</strong><br>
+          <span>${lesson.status}</span>
+        </button>
+      `).join("");
+
+      document.querySelectorAll("[data-unit]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.unitId = button.dataset.unit;
+          state.wordIndex = 0;
+          state.game = "listen";
+          save();
+          render();
+        });
+      });
+    }
+
+    function renderHeader() {
+      $("unitTitle").textContent = unit().title;
+      $("unitSub").textContent = unit().subtitle;
+      $("paceBadge").textContent = state.unitId === "u4"
+        ? "推估進度：Unit 4 / Review 2 前後"
+        : unit().status;
+    }
+
+    function renderWord() {
+      const item = word();
+      $("wordEmoji").textContent = item.emoji;
+      $("wordText").textContent = item.word;
+      $("wordMeaning").textContent = item.zh;
+    }
+
+    function renderProgress() {
+      const keys = ["listen", "spell", "sentence", "review", "known"].map((name) => `${state.unitId}:${name}`);
+      const count = keys.filter((key) => state.done[key]).length;
+      $("dailyScore").textContent = `${count} / 5`;
+      $("dailyBar").style.width = `${Math.min(100, count * 20)}%`;
+    }
+
+    function renderTasks() {
+      const tasks = [
+        ["listen", "聽音選字", "先聽英文，再選正確意思"],
+        ["spell", "拼字", "看中文和提示拼出英文"],
+        ["sentence", "句子重組", "把句子排回正確順序"],
+        ["review", "複習", "混合 Unit 3 和 Unit 4"],
+        ["known", "單字卡", "至少標記一張我會了"]
+      ];
+
+      $("taskLog").innerHTML = tasks.map(([key, title, desc]) => {
+        const done = state.done[`${state.unitId}:${key}`];
+        return `
+          <div class="task">
+            <div><strong>${title}</strong><span>${desc}</span></div>
+            <div class="score">${done ? "Done" : "Todo"}</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function shuffle(items) {
+      return [...items].sort(() => Math.random() - .5);
+    }
+
+    function renderListenGame() {
+      const current = word();
+      const choices = shuffle(unit().words).slice(0, 4);
+      if (!choices.includes(current)) choices[0] = current;
+      const finalChoices = shuffle(choices);
+
+      $("gameArea").innerHTML = `
+        <div class="actions">
+          <button class="primary" id="playListen">播放題目</button>
+          <button class="quiet" id="nextQuestion">換一題</button>
+        </div>
+        <div class="choices">
+          ${finalChoices.map((item) => `<button class="choice" data-answer="${item.word}">${item.emoji} ${item.zh}</button>`).join("")}
+        </div>
+        <div class="feedback" id="gameFeedback"></div>
+      `;
+
+      $("playListen").addEventListener("click", () => speak(current.word));
+      $("nextQuestion").addEventListener("click", nextWord);
+      document.querySelectorAll("[data-answer]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const ok = button.dataset.answer === current.word;
+          button.classList.add(ok ? "correct" : "wrong");
+          $("gameFeedback").textContent = ok ? "答對了，耳朵很準。" : `再聽一次：${current.word}`;
+          if (ok) complete(`${state.unitId}:listen`);
+          if (!ok) speak(current.word);
+        });
+      });
+    }
+
+    function renderSpellGame() {
+      const current = word();
+      const hint = current.word.replace(/[a-z]/gi, (char, index) => index % 2 === 0 ? "_" : char);
+      $("gameArea").innerHTML = `
+        <div>
+          <p class="note">題目：${current.emoji} ${current.zh}</p>
+          <p class="word" style="font-size:36px">${hint}</p>
+        </div>
+        <input class="spellInput" id="spellInput" autocomplete="off" placeholder="輸入英文單字">
+        <div class="actions">
+          <button class="primary" id="checkSpell">檢查</button>
+          <button class="quiet" id="spellSound">聽發音</button>
+        </div>
+        <div class="feedback" id="gameFeedback"></div>
+      `;
+
+      $("spellSound").addEventListener("click", () => speak(current.word));
+      $("checkSpell").addEventListener("click", () => {
+        const answer = $("spellInput").value.trim().toLowerCase();
+        const ok = answer === current.word.toLowerCase();
+        $("gameFeedback").textContent = ok ? "拼對了。" : `差一點，答案是 ${current.word}`;
+        if (ok) complete(`${state.unitId}:spell`);
+      });
+    }
+
+    function renderSentenceGame() {
+      const sentence = unit().sentences[1] || unit().sentences[0];
+      state.sentenceTiles = shuffle(sentence.replace(/[?.!]/g, "").split(" "));
+      const chosen = [];
+
+      function draw() {
+        $("gameArea").innerHTML = `
+          <p class="note">把句子排好，再播放聽聽看。</p>
+          <div class="sentenceSlots" id="sentenceSlots">${chosen.map((item) => `<button class="tile chosen">${item}</button>`).join("")}</div>
+          <div class="tiles" id="tiles">${state.sentenceTiles.map((item, index) => `<button class="tile" data-index="${index}">${item}</button>`).join("")}</div>
+          <div class="actions">
+            <button class="primary" id="checkSentence">檢查</button>
+            <button class="quiet" id="hearSentence">播放正確句子</button>
+            <button class="danger" id="resetSentence">重排</button>
+          </div>
+          <div class="feedback" id="gameFeedback"></div>
+        `;
+
+        document.querySelectorAll("[data-index]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const index = Number(button.dataset.index);
+            chosen.push(state.sentenceTiles.splice(index, 1)[0]);
+            draw();
+          });
+        });
+        $("checkSentence").addEventListener("click", () => {
+          const ok = chosen.join(" ") === sentence.replace(/[?.!]/g, "");
+          $("gameFeedback").textContent = ok ? "句子排對了。" : "順序再調一下。";
+          if (ok) complete(`${state.unitId}:sentence`);
+        });
+        $("hearSentence").addEventListener("click", () => speak(sentence));
+        $("resetSentence").addEventListener("click", () => renderSentenceGame());
+      }
+
+      draw();
+    }
+
+    function renderReviewGame() {
+      const pool = [...lessons[2].words, ...lessons[3].words];
+      const item = pool[Math.floor(Math.random() * pool.length)];
+      $("gameArea").innerHTML = `
+        <div class="wordCard" style="min-height:180px">
+          <div>
+            <div class="emoji">${item.emoji}</div>
+            <p class="word" style="font-size:42px">${item.zh}</p>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="primary" id="reviewReveal">看答案並播放</button>
+          <button class="ghost" id="reviewKnown">我答對了</button>
+          <button class="quiet" id="reviewNext">下一題</button>
+        </div>
+        <div class="feedback" id="gameFeedback"></div>
+      `;
+
+      $("reviewReveal").addEventListener("click", () => {
+        $("gameFeedback").textContent = item.word;
+        speak(item.word);
+      });
+      $("reviewKnown").addEventListener("click", () => complete(`${state.unitId}:review`));
+      $("reviewNext").addEventListener("click", renderReviewGame);
+    }
+
+    function renderGame() {
+      document.querySelectorAll(".tab").forEach((button) => {
+        button.classList.toggle("active", button.dataset.game === state.game);
+      });
+      if (state.game === "listen") renderListenGame();
+      if (state.game === "spell") renderSpellGame();
+      if (state.game === "sentence") renderSentenceGame();
+      if (state.game === "review") renderReviewGame();
+    }
+
+    function nextWord() {
+      state.wordIndex = (state.wordIndex + 1) % unit().words.length;
+      save();
+      renderWord();
+      renderGame();
+    }
+
+    function prevWord() {
+      state.wordIndex = (state.wordIndex - 1 + unit().words.length) % unit().words.length;
+      save();
+      renderWord();
+      renderGame();
+    }
+
+    function startShadowing() {
+      const target = word().word;
+      speak(target);
+      const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!Recognition) {
+        $("speechNote").textContent = "這個瀏覽器不支援語音辨識，可以先跟著發音唸，手動按我會了。";
+        return;
+      }
+
+      const recognition = new Recognition();
+      recognition.lang = "en-US";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+      $("speechNote").textContent = "請跟著唸...";
+      recognition.onresult = (event) => {
+        const said = event.results[0][0].transcript.toLowerCase();
+        const ok = said.includes(target.toLowerCase());
+        $("speechNote").textContent = ok ? `聽起來像：${said}` : `我聽到：${said}，再試一次 ${target}`;
+        if (ok) complete(`${state.unitId}:known`);
+      };
+      recognition.onerror = () => {
+        $("speechNote").textContent = "語音辨識沒有成功啟動，先用播放發音練習。";
+      };
+      recognition.start();
+    }
+
+    function render() {
+      renderNav();
+      renderHeader();
+      renderWord();
+      renderProgress();
+      renderTasks();
+      renderGame();
+    }
+
+    $("prevWord").addEventListener("click", prevWord);
+    $("nextWord").addEventListener("click", nextWord);
+    $("speakWord").addEventListener("click", () => speak(word().word));
+    $("markKnown").addEventListener("click", () => complete(`${state.unitId}:known`));
+    $("startShadow").addEventListener("click", startShadowing);
+    $("resetProgress").addEventListener("click", () => {
+      state.done = {};
+      save();
+      render();
+    });
+
+    document.querySelectorAll(".tab").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.game = button.dataset.game;
+        renderGame();
+      });
+    });
+
+    render();
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./service-worker.js").catch(() => {
+        // Service workers need a secure origin. LAN HTTP still works online.
+      });
+    }
+  </script>
+</body>
+</html>
