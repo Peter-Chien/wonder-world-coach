@@ -97,6 +97,7 @@ systemctl --user stop wonder-world-coach.service
 - 教材內容目前是示範資料，沒有直接複製正式課本內容。
 - 正式 Wonder World 4 單字、句型、課文與音檔需要 Peter 之後提供合法來源後再補入。
 - https://945cloud.knsh.com.tw/CD/E/Study/kWW4/
+- https://www.youtube.com/watch?v=sE0UvdfpMAs&list=PL1ALWv3zeh16vpENGgnoNfdFaxHfD6PKr&index=18
 
 ## 尚待補齊
 
