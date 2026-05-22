@@ -389,6 +389,57 @@
       line-height: 1.5;
     }
 
+    .resourceGrid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, .9fr);
+      gap: 18px;
+    }
+
+    .trackList {
+      display: grid;
+      gap: 8px;
+      max-height: 260px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .trackBtn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      min-height: 46px;
+      padding: 10px 12px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      text-align: left;
+    }
+
+    .trackBtn.active {
+      border-color: var(--sky);
+      background: #eef4ff;
+    }
+
+    .trackBtn span {
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .audioPlayer {
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .videoFrame {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 0;
+      border-radius: 8px;
+      background: #101828;
+    }
+
     @media (max-width: 860px) {
       .app {
         grid-template-columns: 1fr;
@@ -402,7 +453,7 @@
         padding: 18px;
       }
 
-      .topbar, .dashboard {
+      .topbar, .dashboard, .resourceGrid {
         grid-template-columns: 1fr;
         display: grid;
       }
@@ -497,6 +548,37 @@
 
       <section class="panel">
         <div class="panelHead">
+          <h3>官方資源</h3>
+          <a class="quiet" id="openOfficialAudio" href="https://945cloud.knsh.com.tw/CD/E/Study/kWW4/" target="_blank" rel="noopener">康軒音檔頁</a>
+        </div>
+        <div class="panelBody">
+          <div class="resourceGrid">
+            <div>
+              <div class="actions">
+                <button class="tab active" data-audio-unit="u4">Unit 4</button>
+                <button class="tab" data-audio-unit="u3">Unit 3</button>
+              </div>
+              <audio class="audioPlayer" id="officialAudio" controls preload="none"></audio>
+              <p class="note" id="officialAudioNow">選一段官方音檔播放；若網路或來源限制無法播放，仍可開康軒原頁。</p>
+              <div class="trackList" id="officialTracks"></div>
+            </div>
+            <div>
+              <iframe
+                class="videoFrame"
+                src="https://www.youtube.com/embed/videoseries?list=PL1ALWv3zeh16vpENGgnoNfdFaxHfD6PKr"
+                title="Wonder World 4 YouTube playlist"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen></iframe>
+              <div class="actions" style="margin-top:12px">
+                <a class="ghost" href="https://www.youtube.com/playlist?list=PL1ALWv3zeh16vpENGgnoNfdFaxHfD6PKr" target="_blank" rel="noopener">開啟 YouTube 播放清單</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panelHead">
           <h3>練習遊戲</h3>
           <div class="tabs">
             <button class="tab active" data-game="listen">聽音選字</button>
@@ -575,8 +657,43 @@
       unitId: localStorage.getItem("wwc_unit") || "u4",
       wordIndex: Number(localStorage.getItem("wwc_word_index") || 0),
       game: "listen",
+      audioUnit: "u4",
       done: JSON.parse(localStorage.getItem("wwc_done") || "{}"),
       sentenceTiles: []
+    };
+
+    const officialAudioBase = "https://listeningdata.knsh.com.tw/e/learnbook/cd/KWW4/";
+    const officialAudio = {
+      u3: [
+        ["38KWW4_U3_Track38.mp3", "Unit 3 學習重點 1"],
+        ["39KWW4_U3_Track39.mp3", "Unit 3 學習重點 2"],
+        ["40KWW4_U3_Track40.mp3", "Unit 3 學習重點 3"],
+        ["41KWW4_U3_Track41.mp3", "Unit 3 Challenge Time 1"],
+        ["42KWW4_U3_Track42.mp3", "Unit 3 Challenge Time 2"],
+        ["43KWW4_U3_Track43.mp3", "Unit 3 Challenge Time 3"],
+        ["44KWW4_U3_Track44.mp3", "Unit 3 Challenge Time 4"],
+        ["45KWW4_U3_Track45.mp3", "Unit 3 單元測驗 基礎 1"],
+        ["46KWW4_U3_Track46.mp3", "Unit 3 單元測驗 基礎 2"],
+        ["47KWW4_U3_Track47.mp3", "Unit 3 單元測驗 基礎 3"],
+        ["48KWW4_U3_Track48.mp3", "Unit 3 單元測驗 進階 1"],
+        ["49KWW4_U3_Track49.mp3", "Unit 3 單元測驗 進階 2"],
+        ["50KWW4_U3_Track50.mp3", "Unit 3 單元測驗 進階 3"]
+      ],
+      u4: [
+        ["51KWW4_U4_Track51.mp3", "Unit 4 學習重點 1"],
+        ["52KWW4_U4_Track52.mp3", "Unit 4 學習重點 2"],
+        ["53KWW4_U4_Track53.mp3", "Unit 4 學習重點 3"],
+        ["54KWW4_U4_Track54.mp3", "Unit 4 Challenge Time 1"],
+        ["55KWW4_U4_Track55.mp3", "Unit 4 Challenge Time 2"],
+        ["56KWW4_U4_Track56.mp3", "Unit 4 Challenge Time 3"],
+        ["57KWW4_U4_Track57.mp3", "Unit 4 Challenge Time 4"],
+        ["58KWW4_U4_Track58.mp3", "Unit 4 單元測驗 基礎 1"],
+        ["59KWW4_U4_Track59.mp3", "Unit 4 單元測驗 基礎 2"],
+        ["60KWW4_U4_Track60.mp3", "Unit 4 單元測驗 基礎 3"],
+        ["61KWW4_U4_Track61.mp3", "Unit 4 單元測驗 進階 1"],
+        ["62KWW4_U4_Track62.mp3", "Unit 4 單元測驗 進階 2"],
+        ["63KWW4_U4_Track63.mp3", "Unit 4 單元測驗 進階 3"]
+      ]
     };
 
     const $ = (id) => document.getElementById(id);
@@ -664,6 +781,31 @@
           </div>
         `;
       }).join("");
+    }
+
+    function renderOfficialAudio() {
+      document.querySelectorAll("[data-audio-unit]").forEach((button) => {
+        button.classList.toggle("active", button.dataset.audioUnit === state.audioUnit);
+      });
+
+      $("officialTracks").innerHTML = officialAudio[state.audioUnit].map(([fileName, title], index) => `
+        <button class="trackBtn" data-track="${fileName}" data-title="${title}">
+          <strong>${title}</strong>
+          <span>Track ${fileName.match(/Track(\d+)/)[1]}</span>
+        </button>
+      `).join("");
+
+      document.querySelectorAll("[data-track]").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.querySelectorAll("[data-track]").forEach((item) => item.classList.remove("active"));
+          button.classList.add("active");
+          $("officialAudio").src = officialAudioBase + button.dataset.track;
+          $("officialAudioNow").textContent = `正在播放：${button.dataset.title}`;
+          $("officialAudio").play().catch(() => {
+            $("officialAudioNow").textContent = `已選取：${button.dataset.title}，請按播放器播放。`;
+          });
+        });
+      });
     }
 
     function shuffle(items) {
@@ -789,7 +931,7 @@
     }
 
     function renderGame() {
-      document.querySelectorAll(".tab").forEach((button) => {
+      document.querySelectorAll("[data-game]").forEach((button) => {
         button.classList.toggle("active", button.dataset.game === state.game);
       });
       if (state.game === "listen") renderListenGame();
@@ -844,6 +986,7 @@
       renderWord();
       renderProgress();
       renderTasks();
+      renderOfficialAudio();
       renderGame();
     }
 
@@ -858,10 +1001,21 @@
       render();
     });
 
-    document.querySelectorAll(".tab").forEach((button) => {
+    document.querySelectorAll("[data-game]").forEach((button) => {
       button.addEventListener("click", () => {
         state.game = button.dataset.game;
         renderGame();
+      });
+    });
+
+    document.querySelectorAll("[data-audio-unit]").forEach((button) => {
+      button.addEventListener("click", () => {
+        state.audioUnit = button.dataset.audioUnit;
+        $("officialAudio").pause();
+        $("officialAudio").removeAttribute("src");
+        $("officialAudio").load();
+        $("officialAudioNow").textContent = "選一段官方音檔播放；若網路或來源限制無法播放，仍可開康軒原頁。";
+        renderOfficialAudio();
       });
     });
 

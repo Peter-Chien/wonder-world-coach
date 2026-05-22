@@ -1,4 +1,4 @@
-const CACHE_NAME = "wonder-world-coach-v1";
+const CACHE_NAME = "wonder-world-coach-v2";
 const ASSETS = [
   "./",
   "./index.html",

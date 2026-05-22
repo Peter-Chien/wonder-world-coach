@@ -36,14 +36,14 @@ http://家裡電腦主機名.local:4173/
 
 平板和家裡 Ubuntu 電腦要連在同一個 Wi-Fi / 區網。若 `.local` 網址打不開，改用 IP 網址。
 
-## 發音方式
+## 發音與官方資源
 
-目前不需要另外準備音檔。AP 使用瀏覽器內建英文語音合成 `speechSynthesis` 發音，所以 Chrome、Edge、Safari 通常可以直接唸。
+目前不需要另外準備音檔。單字練習使用瀏覽器內建英文語音合成 `speechSynthesis` 發音，所以 Chrome、Edge、Safari 通常可以直接唸。
 
-若之後有康軒官方合法音檔，可以改成：
+首頁也已接上 Peter 提供的官方資源：
 
-- 優先播放官方音檔
-- 沒有音檔時才使用瀏覽器 TTS
+- 康軒 Wonder World 4 音檔頁，可在 AP 內播放 Unit 3 / Unit 4 Track。
+- YouTube 播放清單，可在 AP 內嵌播放，也可另開 YouTube。
 
 ## 更新版本
 
@@ -95,9 +95,10 @@ systemctl --user stop wonder-world-coach.service
 
 - 這是可在家裡區網使用的第一版原型。
 - 教材內容目前是示範資料，沒有直接複製正式課本內容。
-- 正式 Wonder World 4 單字、句型、課文與音檔需要 Peter 之後提供合法來源後再補入。
-- https://945cloud.knsh.com.tw/CD/E/Study/kWW4/
-- https://www.youtube.com/playlist?list=PL1ALWv3zeh16vpENGgnoNfdFaxHfD6PKr
+- 官方資源已接入：
+  - https://945cloud.knsh.com.tw/CD/E/Study/kWW4/
+  - https://www.youtube.com/playlist?list=PL1ALWv3zeh16vpENGgnoNfdFaxHfD6PKr
+- 正式 Wonder World 4 單字、句型與課文需要 Peter 之後提供合法來源後再補入。
 
 ## 尚待補齊
 
