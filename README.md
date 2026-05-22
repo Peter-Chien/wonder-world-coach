@@ -100,8 +100,8 @@ systemctl --user stop wonder-world-coach.service
   - https://www.youtube.com/playlist?list=PL1ALWv3zeh16vpENGgnoNfdFaxHfD6PKr
 - 正式 Wonder World 4 單字、句型與課文需要 Peter 之後提供合法來源後再補入。
 
-## 尚待補齊
+## 後續可選
 
-- 用 Peter 提供的課本/習作照片替換正式單字、句型與課文資料。
-- 若要更短網址如 `wonder.local`，需要額外設定 mDNS alias 或家中路由器 DNS。
-- 若要完整 PWA 安裝與離線能力，建議之後補 HTTPS 內網站台。
+- 正式單字、句型與課文：需要 Peter 提供課本/習作照片或合法文字來源後再替換。
+- 更短網址如 `wonder.local`：需要額外設定 mDNS alias 或家中路由器 DNS。
+- 完整 PWA 安裝與離線能力：建議之後補 HTTPS 內網站台。
