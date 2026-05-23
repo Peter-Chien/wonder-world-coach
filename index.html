@@ -389,6 +389,81 @@
       line-height: 1.5;
     }
 
+    .lessonText {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(260px, .95fr);
+      gap: 18px;
+    }
+
+    .lineList, .keyList {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .lineList {
+      max-height: 320px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .lineItem {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+    }
+
+    .lineNo {
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: #eef4ff;
+      color: #2458a7;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .lineText {
+      font-size: 18px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .soundBtn {
+      width: 36px;
+      height: 36px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+    }
+
+    .keyBlock {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #fffdf8;
+      border: 1px solid #efd9b2;
+    }
+
+    .keyBlock strong {
+      font-size: 14px;
+      color: #8a5208;
+    }
+
+    .keyBlock p {
+      margin: 0;
+      line-height: 1.5;
+    }
+
     .resourceGrid {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(280px, .9fr);
@@ -453,7 +528,7 @@
         padding: 18px;
       }
 
-      .topbar, .dashboard, .resourceGrid {
+      .topbar, .dashboard, .lessonText, .resourceGrid {
         grid-template-columns: 1fr;
         display: grid;
       }
@@ -474,6 +549,15 @@
 
       .actions {
         display: grid;
+      }
+
+      .lineItem {
+        grid-template-columns: 30px minmax(0, 1fr) 34px;
+        padding: 9px;
+      }
+
+      .lineText {
+        font-size: 16px;
       }
     }
   </style>
@@ -548,6 +632,17 @@
 
       <section class="panel">
         <div class="panelHead">
+          <h3>課文速讀</h3>
+          <button class="quiet" id="playLesson">連續播放</button>
+        </div>
+        <div class="panelBody lessonText">
+          <ul class="lineList" id="storyLines"></ul>
+          <div class="keyList" id="keyPatterns"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panelHead">
           <h3>官方資源</h3>
           <a class="quiet" id="openOfficialAudio" href="https://945cloud.knsh.com.tw/CD/E/Study/kWW4/" target="_blank" rel="noopener">康軒音檔頁</a>
         </div>
@@ -607,7 +702,12 @@
           { word: "bathroom", zh: "浴室", emoji: "🛁" },
           { word: "living room", zh: "客廳", emoji: "🛋️" }
         ],
-        sentences: ["Where are you?", "I am in the kitchen."]
+        sentences: ["Where are you?", "I am in the kitchen."],
+        story: ["Where are you?", "I am in the kitchen."],
+        patterns: [
+          ["問位置", "Where are you?"],
+          ["回答位置", "I am in the kitchen."]
+        ]
       },
       {
         id: "u2",
@@ -620,7 +720,12 @@
           { word: "sleeping", zh: "正在睡覺", emoji: "😴" },
           { word: "writing", zh: "正在寫字", emoji: "✏️" }
         ],
-        sentences: ["What are you doing?", "I am reading."]
+        sentences: ["What are you doing?", "I am reading."],
+        story: ["What are you doing?", "I am reading."],
+        patterns: [
+          ["問正在做什麼", "What are you doing?"],
+          ["回答正在做什麼", "I am reading."]
+        ]
       },
       {
         id: "u3",
@@ -634,22 +739,61 @@
           { word: "chicken", zh: "雞肉", emoji: "🍗" },
           { word: "fish", zh: "魚", emoji: "🐟" }
         ],
-        sentences: ["What do you want for lunch?", "I want rice and soup."]
+        sentences: ["What do you want for lunch?", "I want rice and soup."],
+        story: ["What do you want for lunch?", "I want rice and soup."],
+        patterns: [
+          ["問午餐想吃什麼", "What do you want for lunch?"],
+          ["回答想吃的食物", "I want rice and soup."]
+        ]
       },
       {
         id: "u4",
         title: "Unit 4 · At the Zoo",
-        subtitle: "Plural Nouns · Animal Homes",
-        status: "主線：依 5 月下旬推估",
+        subtitle: "Plural Nouns · Animal Homes · Like / Do not like",
+        status: "主線：已補 Peter 提供的課本照片",
         words: [
-          { word: "lion", zh: "獅子", emoji: "🦁" },
-          { word: "monkey", zh: "猴子", emoji: "🐒" },
-          { word: "elephant", zh: "大象", emoji: "🐘" },
-          { word: "zebra", zh: "斑馬", emoji: "🦓" },
-          { word: "bear", zh: "熊", emoji: "🐻" },
-          { word: "bird", zh: "鳥", emoji: "🐦" }
+          { word: "bears", zh: "熊", emoji: "🐻" },
+          { word: "lions", zh: "獅子", emoji: "🦁" },
+          { word: "monkeys", zh: "猴子", emoji: "🐒" },
+          { word: "tigers", zh: "老虎", emoji: "🐯" },
+          { word: "zebras", zh: "斑馬", emoji: "🦓" }
         ],
-        sentences: ["What are these?", "They are lions.", "Where do birds live?"]
+        sentences: [
+          "Do you like bears?",
+          "Yes, I do.",
+          "No, I don't.",
+          "I like tigers.",
+          "I don't like tigers.",
+          "They are cute.",
+          "They are big."
+        ],
+        story: [
+          "Cool!",
+          "Hello, monkeys.",
+          "I like monkeys. They are cute.",
+          "Have fun!",
+          "Do you like zebras?",
+          "Yes, I do.",
+          "Me too.",
+          "I like bears. Do you like bears?",
+          "No, I don't. They are big.",
+          "Wow! What's that?",
+          "It's a tiger.",
+          "I don't like bears.",
+          "I don't like tigers.",
+          "A bear! Help!",
+          "A tiger! Run!"
+        ],
+        patterns: [
+          ["問喜不喜歡", "Do you like bears?"],
+          ["肯定回答", "Yes, I do."],
+          ["否定回答", "No, I don't."],
+          ["表達喜歡", "I like monkeys. They are cute."],
+          ["表達不喜歡", "I don't like tigers."],
+          ["動物家園", "grassland / forest"],
+          ["善待動物", "Do not touch. Do not feed. Do not shout."],
+          ["自然發音", "sh: shirt, fish, wash / ch: chips, cheese, lunch"]
+        ]
       }
     ];
 
@@ -783,6 +927,31 @@
       }).join("");
     }
 
+    function renderLessonText() {
+      const current = unit();
+      $("storyLines").innerHTML = (current.story || current.sentences).map((line, index) => `
+        <li class="lineItem">
+          <span class="lineNo">${index + 1}</span>
+          <span class="lineText">${line}</span>
+          <button class="soundBtn" data-story-line="${index}" title="播放這一句">▶</button>
+        </li>
+      `).join("");
+
+      $("keyPatterns").innerHTML = (current.patterns || []).map(([title, text]) => `
+        <div class="keyBlock">
+          <strong>${title}</strong>
+          <p>${text}</p>
+        </div>
+      `).join("");
+
+      document.querySelectorAll("[data-story-line]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const line = (current.story || current.sentences)[Number(button.dataset.storyLine)];
+          speak(line);
+        });
+      });
+    }
+
     function renderOfficialAudio() {
       document.querySelectorAll("[data-audio-unit]").forEach((button) => {
         button.classList.toggle("active", button.dataset.audioUnit === state.audioUnit);
@@ -868,7 +1037,7 @@
     }
 
     function renderSentenceGame() {
-      const sentence = unit().sentences[1] || unit().sentences[0];
+      const sentence = unit().sentences[Math.floor(Math.random() * unit().sentences.length)] || unit().sentences[0];
       state.sentenceTiles = shuffle(sentence.replace(/[?.!]/g, "").split(" "));
       const chosen = [];
 
@@ -986,6 +1155,7 @@
       renderWord();
       renderProgress();
       renderTasks();
+      renderLessonText();
       renderOfficialAudio();
       renderGame();
     }
@@ -995,6 +1165,7 @@
     $("speakWord").addEventListener("click", () => speak(word().word));
     $("markKnown").addEventListener("click", () => complete(`${state.unitId}:known`));
     $("startShadow").addEventListener("click", startShadowing);
+    $("playLesson").addEventListener("click", () => speak((unit().story || unit().sentences).join(" ")));
     $("resetProgress").addEventListener("click", () => {
       state.done = {};
       save();

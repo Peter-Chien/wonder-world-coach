@@ -94,14 +94,14 @@ systemctl --user stop wonder-world-coach.service
 ## 目前狀態
 
 - 這是可在家裡區網使用的第一版原型。
-- 教材內容目前是示範資料，沒有直接複製正式課本內容。
+- Unit 4 已依 Peter 提供的課本照片補入正式單字、句型與課文速讀；Unit 1-3 仍是示範/推估資料。
 - 官方資源已接入：
   - https://945cloud.knsh.com.tw/CD/E/Study/kWW4/
   - https://www.youtube.com/playlist?list=PL1ALWv3zeh16vpENGgnoNfdFaxHfD6PKr
-- 正式 Wonder World 4 單字、句型與課文需要 Peter 之後提供合法來源後再補入。
+- 後續若 Peter 提供 Unit 1-3 課本或習作照片，可再補成正式內容。
 
 ## 後續可選
 
-- 正式單字、句型與課文：需要 Peter 提供課本/習作照片或合法文字來源後再替換。
+- Unit 1-3 正式單字、句型與課文：需要 Peter 提供課本/習作照片或合法文字來源後再替換。
 - 更短網址如 `wonder.local`：需要額外設定 mDNS alias 或家中路由器 DNS。
 - 完整 PWA 安裝與離線能力：建議之後補 HTTPS 內網站台。
