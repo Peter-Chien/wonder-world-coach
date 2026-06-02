@@ -25,17 +25,26 @@
       --amber: #f2a93b;
       --violet: #7c5cff;
       --shadow: 0 12px 32px rgba(31, 42, 55, .12);
+      --motion: 220ms cubic-bezier(.2, .8, .2, 1);
     }
 
     * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
       font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--ink);
       background:
-        linear-gradient(135deg, rgba(71, 184, 129, .16), rgba(47, 128, 237, .12)),
-        var(--paper);
+        radial-gradient(circle at top left, rgba(71, 184, 129, .18), transparent 28%),
+        radial-gradient(circle at top right, rgba(47, 128, 237, .16), transparent 28%),
+        linear-gradient(135deg, #eef4ff 0%, #fdfbf5 52%, #edf8f3 100%);
+      padding: 20px;
+      padding-bottom: 112px;
+      min-height: 100vh;
     }
 
     button, input, select {
@@ -53,15 +62,28 @@
       min-height: 100vh;
       display: grid;
       grid-template-columns: 280px minmax(0, 1fr);
+      max-width: 1600px;
+      margin: 0 auto;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid rgba(216, 222, 232, .82);
+      background: rgba(255, 255, 255, .68);
+      box-shadow: 0 30px 80px rgba(31, 42, 55, .16);
+      backdrop-filter: blur(12px);
     }
 
     aside {
-      background: #12333f;
+      background:
+        radial-gradient(circle at top, rgba(255, 255, 255, .08), transparent 38%),
+        linear-gradient(180deg, #12333f, #0e2730 100%);
       color: #f8fbfc;
       padding: 24px;
       display: flex;
       flex-direction: column;
       gap: 22px;
+      position: sticky;
+      top: 0;
+      min-height: 100vh;
     }
 
     .brand {
@@ -134,17 +156,30 @@
     }
 
     main {
-      padding: 28px;
+      padding: 24px;
+      padding-bottom: 40px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, .72), rgba(255, 255, 255, .52)),
+        #f5f8fc;
       display: grid;
-      gap: 22px;
+      gap: 18px;
       align-content: start;
     }
 
     .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 2;
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
       gap: 16px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(245, 248, 252, .88);
+      border: 1px solid rgba(216, 222, 232, .82);
+      box-shadow: 0 8px 24px rgba(31, 42, 55, .08);
+      backdrop-filter: blur(10px);
     }
 
     .headline h2 {
@@ -173,6 +208,287 @@
       font-size: 14px;
     }
 
+    .quickNav {
+      display: none;
+    }
+
+    .quickNav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .82);
+      border: 1px solid rgba(216, 222, 232, .9);
+      color: #344054;
+      text-decoration: none;
+      font-size: 13px;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(31, 42, 55, .05);
+    }
+
+    .statusRow {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+      gap: 10px;
+    }
+
+    .statusPill {
+      display: grid;
+      gap: 4px;
+      min-height: 96px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .9);
+      border: 1px solid rgba(216, 222, 232, .9);
+      box-shadow: 0 1px 3px rgba(31, 42, 55, .08);
+      align-content: center;
+      animation: riseIn .55s var(--motion) both;
+    }
+
+    .statusPill strong {
+      font-size: 18px;
+      color: var(--ink);
+    }
+
+    .statusPill span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    #storagePill {
+      grid-column: 1 / -1;
+    }
+
+    .statusPill.online strong {
+      color: #137333;
+    }
+
+    .statusPill.offline strong {
+      color: #b42318;
+    }
+
+    .statusPill.loading strong {
+      color: #8a5208;
+    }
+
+    .reviewGrid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .reviewCard {
+      display: grid;
+      gap: 6px;
+      padding: 18px;
+      border-radius: 18px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      min-height: 136px;
+      align-content: start;
+      animation: riseIn .55s var(--motion) both;
+    }
+
+    .reviewCard strong {
+      font-size: 22px;
+      letter-spacing: 0;
+    }
+
+    .reviewCard span, .reviewCard p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 12px;
+    }
+
+    .reviewCard.action {
+      background: linear-gradient(180deg, rgba(47, 128, 237, .08), rgba(47, 128, 237, .02));
+      border-color: rgba(47, 128, 237, .18);
+    }
+
+    .reviewCard.action button {
+      justify-self: start;
+    }
+
+    .emptyState {
+      display: grid;
+      place-items: center;
+      min-height: 140px;
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px dashed #c8d2df;
+      background: #f8fafc;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .timestamp {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .dockNav {
+      position: fixed;
+      left: 50%;
+      bottom: max(16px, env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      width: min(860px, calc(100vw - 32px));
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      padding: 8px;
+      border-radius: 28px 28px 22px 22px;
+      background: rgba(255, 255, 255, .92);
+      border: 1px solid rgba(216, 222, 232, .92);
+      box-shadow:
+        0 10px 30px rgba(31, 42, 55, .14),
+        0 1px 0 rgba(255, 255, 255, .6) inset;
+      backdrop-filter: blur(18px);
+      z-index: 12;
+    }
+
+    .dockBtn {
+      --accent: var(--sky);
+      --accent-soft: rgba(47, 128, 237, .12);
+      display: grid;
+      justify-items: center;
+      gap: 6px;
+      min-height: 88px;
+      padding: 10px 8px 12px;
+      border-radius: 22px;
+      background: transparent;
+      color: #475467;
+      text-decoration: none;
+      text-align: center;
+      transition: transform .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
+      touch-action: manipulation;
+      position: relative;
+    }
+
+    .dockBtn[data-accent="sky"] {
+      --accent: #2f80ed;
+      --accent-soft: rgba(47, 128, 237, .14);
+    }
+
+    .dockBtn[data-accent="mint"] {
+      --accent: #47b881;
+      --accent-soft: rgba(71, 184, 129, .16);
+    }
+
+    .dockBtn[data-accent="amber"] {
+      --accent: #f2a93b;
+      --accent-soft: rgba(242, 169, 59, .18);
+    }
+
+    .dockBtn[data-accent="coral"] {
+      --accent: #f97066;
+      --accent-soft: rgba(249, 112, 102, .16);
+    }
+
+    .dockBtn[data-accent="violet"] {
+      --accent: #7c5cff;
+      --accent-soft: rgba(124, 92, 255, .16);
+    }
+
+    .dockBtn span {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 15px;
+      font-size: 21px;
+      line-height: 1;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .dockBtn strong {
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .dockBtn small {
+      font-size: 11px;
+      line-height: 1.1;
+      color: inherit;
+      opacity: .8;
+    }
+
+    .dockBtn.active {
+      background: linear-gradient(180deg, rgba(255, 255, 255, .98), rgba(255, 255, 255, .74));
+      color: var(--accent);
+      transform: translateY(-1px);
+      box-shadow:
+        0 6px 18px rgba(31, 42, 55, .08),
+        0 0 0 1px rgba(255, 255, 255, .8) inset;
+    }
+
+    .dockBtn.active::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 6px;
+      width: 30px;
+      height: 4px;
+      border-radius: 999px;
+      transform: translateX(-50%);
+      background: var(--accent);
+    }
+
+    .dockBtn .navCapsule {
+      display: inline-flex;
+      align-items: center;
+      min-height: 18px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .75);
+      color: inherit;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .dockBtn.active .navCapsule {
+      background: rgba(255, 255, 255, .96);
+    }
+
+    .panel {
+      animation: riseIn .6s var(--motion) both;
+    }
+
+    .panel:nth-child(2n) {
+      animation-delay: .04s;
+    }
+
+    .panel:nth-child(3n) {
+      animation-delay: .08s;
+    }
+
+    @keyframes riseIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
     .dashboard {
       display: grid;
       grid-template-columns: minmax(0, 1.08fr) minmax(280px, .92fr);
@@ -182,13 +498,17 @@
     .panel {
       background: rgba(255, 255, 255, .9);
       border: 1px solid rgba(216, 222, 232, .9);
-      border-radius: 8px;
-      box-shadow: var(--shadow);
+      border-radius: 20px;
+      box-shadow: 0 14px 34px rgba(31, 42, 55, .10);
       overflow: hidden;
     }
 
+    section[id] {
+      scroll-margin-top: 110px;
+    }
+
     .panelHead {
-      padding: 16px 18px;
+      padding: 18px 20px 14px;
       border-bottom: 1px solid var(--line);
       display: flex;
       align-items: center;
@@ -203,7 +523,7 @@
     }
 
     .panelBody {
-      padding: 18px;
+      padding: 20px;
     }
 
     .actions {
@@ -237,50 +557,421 @@
     }
 
     .wordCard {
-      min-height: 300px;
+      min-height: 430px;
       display: grid;
       place-items: center;
       text-align: center;
       padding: 18px;
       background:
-        radial-gradient(circle at 18% 18%, rgba(71, 184, 129, .2), transparent 28%),
-        radial-gradient(circle at 82% 72%, rgba(242, 169, 59, .18), transparent 30%),
-        #ffffff;
+        radial-gradient(circle at 14% 14%, rgba(71, 184, 129, .18), transparent 20%),
+        radial-gradient(circle at 86% 18%, rgba(47, 128, 237, .18), transparent 18%),
+        radial-gradient(circle at 84% 80%, rgba(242, 169, 59, .18), transparent 22%),
+        linear-gradient(160deg, #ffffff 0%, #f7fbff 42%, #fffaf1 100%);
+      border-radius: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .wordCard::before,
+    .wordCard::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      pointer-events: none;
+    }
+
+    .wordCard::before {
+      width: 210px;
+      height: 210px;
+      right: -58px;
+      top: -64px;
+      background: rgba(47, 128, 237, .08);
+      filter: blur(4px);
+    }
+
+    .wordCard::after {
+      width: 160px;
+      height: 160px;
+      left: -42px;
+      bottom: -48px;
+      background: rgba(71, 184, 129, .08);
+      filter: blur(3px);
+    }
+
+    .coverRibbon {
+      position: absolute;
+      inset: 18px 18px auto 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .coverRibbon::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 18px;
+      height: 10px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(47, 128, 237, .12), rgba(71, 184, 129, .12), rgba(242, 169, 59, .12));
+      opacity: .9;
+    }
+
+    .coverChip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .86);
+      border: 1px solid rgba(216, 222, 232, .9);
+      color: #5b6473;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      box-shadow: 0 4px 12px rgba(31, 42, 55, .05);
+    }
+
+    .wordCardInner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 12px;
+      justify-items: center;
+      width: min(100%, 460px);
+    }
+
+    .cardTag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .82);
+      border: 1px solid rgba(216, 222, 232, .9);
+      color: #5b6473;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .cardUnit {
+      font-size: clamp(26px, 4vw, 34px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: 0;
+      color: var(--ink);
+      text-wrap: balance;
+    }
+
+    .cardSubtitle {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.35;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+
+    .coverPalette {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 320px;
+    }
+
+    .paletteBlock {
+      flex: 1 1 0;
+      height: 14px;
+      border-radius: 999px;
+      background: var(--color);
+      box-shadow: 0 4px 10px rgba(31, 42, 55, .08);
+    }
+
+    .cardFrame {
+      display: grid;
+      place-items: center;
+      width: min(100%, 360px);
+      aspect-ratio: 1 / .92;
+      border-radius: 34px;
+      background:
+        radial-gradient(circle at 20% 18%, rgba(255, 255, 255, .95), rgba(255, 255, 255, .7) 38%, rgba(255, 255, 255, .2) 76%, transparent 100%),
+        linear-gradient(180deg, rgba(255, 255, 255, .78), rgba(255, 255, 255, .52));
+      border: 1px solid rgba(216, 222, 232, .92);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .7),
+        0 20px 44px rgba(31, 42, 55, .08);
+    }
+
+    .cardArt {
+      display: grid;
+      justify-items: center;
+      gap: 8px;
+      width: min(100%, 290px);
+      padding: 12px 18px 16px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 50% 8%, rgba(47, 128, 237, .10), transparent 32%),
+        radial-gradient(circle at 50% 92%, rgba(71, 184, 129, .10), transparent 32%),
+        linear-gradient(180deg, rgba(255, 255, 255, .9), rgba(255, 255, 255, .62));
+      border: 1px solid rgba(216, 222, 232, .7);
+      box-shadow: 0 10px 24px rgba(31, 42, 55, .06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cardArt::before,
+    .cardArt::after {
+      content: "";
+      position: absolute;
+      inset: auto;
+      border-radius: 999px;
+      opacity: .8;
+      pointer-events: none;
+    }
+
+    .cardArt::before {
+      width: 68px;
+      height: 68px;
+      left: 14px;
+      top: 14px;
+      background: radial-gradient(circle, rgba(47, 128, 237, .22) 0%, rgba(47, 128, 237, .08) 52%, transparent 70%);
+    }
+
+    .cardArt::after {
+      width: 96px;
+      height: 96px;
+      right: 6px;
+      bottom: 10px;
+      background: radial-gradient(circle, rgba(242, 169, 59, .18) 0%, rgba(242, 169, 59, .06) 54%, transparent 72%);
+    }
+
+    .posterScene {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: .9;
+    }
+
+    .posterSun {
+      position: absolute;
+      width: 108px;
+      height: 108px;
+      border-radius: 999px;
+      right: -12px;
+      top: -10px;
+      background: radial-gradient(circle, rgba(242, 169, 59, .48) 0%, rgba(242, 169, 59, .18) 38%, transparent 70%);
+      filter: blur(.5px);
+    }
+
+    .posterCloud {
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .56);
+      filter: blur(.4px);
+    }
+
+    .posterCloud.c1 {
+      width: 58px;
+      height: 24px;
+      left: 12px;
+      top: 18px;
+    }
+
+    .posterCloud.c2 {
+      width: 76px;
+      height: 28px;
+      left: 56px;
+      top: 12px;
+    }
+
+    .posterCloud.c3 {
+      width: 52px;
+      height: 22px;
+      right: 32px;
+      top: 58px;
+    }
+
+    .posterHill {
+      position: absolute;
+      left: -12px;
+      right: -12px;
+      bottom: -6px;
+      height: 120px;
+      background:
+        radial-gradient(90px 72px at 18% 100%, rgba(71, 184, 129, .22) 60%, transparent 61%),
+        radial-gradient(140px 90px at 52% 100%, rgba(47, 128, 237, .18) 60%, transparent 61%),
+        radial-gradient(110px 76px at 84% 100%, rgba(242, 169, 59, .20) 60%, transparent 61%);
+      opacity: .95;
+    }
+
+    .posterTree {
+      position: absolute;
+      width: 34px;
+      height: 78px;
+      left: 18px;
+      bottom: 36px;
+      background:
+        linear-gradient(180deg, rgba(123, 92, 255, .22), rgba(123, 92, 255, .06)),
+        linear-gradient(180deg, #8d6b45, #6b4d2f);
+      border-radius: 14px 14px 10px 10px;
+      transform: rotate(-4deg);
+      box-shadow: 0 8px 16px rgba(31, 42, 55, .08);
+    }
+
+    .posterTree::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: -34px;
+      width: 104px;
+      height: 84px;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 32% 42%, rgba(47, 128, 237, .25) 0 18%, transparent 19%),
+        radial-gradient(circle at 55% 28%, rgba(71, 184, 129, .25) 0 20%, transparent 21%),
+        radial-gradient(circle at 72% 50%, rgba(242, 169, 59, .25) 0 18%, transparent 19%),
+        radial-gradient(circle at 50% 50%, rgba(31, 42, 55, .10), rgba(31, 42, 55, .02) 68%, transparent 69%);
+      filter: blur(.2px);
+      opacity: .95;
+    }
+
+    .posterAnimal {
+      position: absolute;
+      inset: 64px 28px 70px 28px;
+      border-radius: 36px;
+      background:
+        radial-gradient(circle at 50% 16%, rgba(255, 255, 255, .42), transparent 38%),
+        radial-gradient(circle at 50% 48%, rgba(47, 128, 237, .16), transparent 42%);
+      opacity: .94;
+      filter: drop-shadow(0 8px 16px rgba(31, 42, 55, .06));
+    }
+
+    .posterAnimal::before {
+      content: "";
+      position: absolute;
+      inset: 22px 36px 20px 36px;
+      border-radius: 999px 999px 42px 42px;
+      background:
+        radial-gradient(circle at 28% 30%, rgba(255, 255, 255, .74) 0 8%, transparent 9%),
+        radial-gradient(circle at 72% 30%, rgba(255, 255, 255, .74) 0 8%, transparent 9%),
+        linear-gradient(180deg, rgba(255, 255, 255, .6), rgba(255, 255, 255, .08));
+      box-shadow:
+        inset 0 0 0 2px rgba(255, 255, 255, .48),
+        0 0 0 1px rgba(47, 128, 237, .08);
+      clip-path: polygon(18% 0%, 82% 0%, 100% 18%, 100% 62%, 80% 84%, 72% 100%, 28% 100%, 20% 84%, 0% 62%, 0% 18%);
+    }
+
+    .posterAnimal::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 10px;
+      width: 86px;
+      height: 86px;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(31, 42, 55, .55) 0 18%, rgba(31, 42, 55, .18) 19% 20%, transparent 21%),
+        radial-gradient(circle at 30% 40%, rgba(255, 255, 255, .82) 0 10%, transparent 11%),
+        radial-gradient(circle at 70% 40%, rgba(255, 255, 255, .82) 0 10%, transparent 11%);
+      opacity: .85;
+      filter: blur(.25px);
+    }
+
+    .cardBadgeRow {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 2px;
+    }
+
+    .cardBadge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: rgba(47, 128, 237, .08);
+      color: #2458a7;
+      border: 1px solid rgba(47, 128, 237, .14);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
     }
 
     .emoji {
-      font-size: clamp(60px, 12vw, 112px);
+      font-size: clamp(110px, 16vw, 190px);
       line-height: 1;
       margin-bottom: 10px;
     }
 
     .word {
-      font-size: clamp(42px, 8vw, 74px);
+      font-size: clamp(42px, 6vw, 64px);
       font-weight: 800;
       letter-spacing: 0;
       line-height: 1;
-      margin: 0 0 10px;
+      margin: 0;
     }
 
     .meaning {
       color: var(--muted);
-      font-size: 20px;
+      font-size: 15px;
       margin: 0;
     }
 
-    .tabs {
+    .cardHint {
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.45;
+      margin: 0;
+    }
+
+    .cardTheme {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      width: min(100%, 340px);
+    }
+
+    .themeBar {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+    }
+
+    .themeDot {
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      box-shadow: 0 4px 10px rgba(31, 42, 55, .08);
+    }
+
+    .tabs {
+      display: flex;
       gap: 8px;
       padding: 8px;
       background: #edf1f6;
-      border-radius: 8px;
+      border-radius: 999px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .tab {
-      padding: 10px 8px;
+      flex: 0 0 auto;
+      min-width: 110px;
+      padding: 11px 12px;
       background: transparent;
       color: #475467;
+      border-radius: 999px;
     }
 
     .tab.active {
@@ -294,6 +985,95 @@
       display: grid;
       gap: 16px;
       align-content: start;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .66), rgba(248, 250, 252, .86));
+      border-radius: 20px;
+      padding: 8px;
+    }
+
+    .matchGrid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .matchCard {
+      min-height: 96px;
+      padding: 12px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(31, 42, 55, .05);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+
+    .matchCard strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    .matchCard small {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .matchCard.selected {
+      border-color: var(--sky);
+      background: #eef4ff;
+      transform: translateY(-1px);
+    }
+
+    .matchCard.matched {
+      border-color: var(--mint);
+      background: #ebfff4;
+      opacity: .92;
+    }
+
+    .sprintWrap {
+      display: grid;
+      gap: 12px;
+    }
+
+    .sprintBar {
+      height: 12px;
+      border-radius: 999px;
+      background: #e8edf4;
+      overflow: hidden;
+    }
+
+    .sprintBar span {
+      display: block;
+      height: 100%;
+      width: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #47b881, #2f80ed);
+      transition: width .18s linear;
+    }
+
+    .sprintPrompt {
+      display: grid;
+      gap: 6px;
+      padding: 16px;
+      border-radius: 18px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+    }
+
+    .sprintPrompt .question {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .sprintPrompt .timer {
+      color: var(--muted);
+      font-size: 13px;
     }
 
     .choices {
@@ -318,6 +1098,210 @@
     .choice.wrong {
       border-color: var(--coral);
       background: #fff3f2;
+    }
+
+    .choice.hint {
+      border-style: dashed;
+    }
+
+    .flashWrap,
+    .clozeWrap {
+      display: grid;
+      gap: 12px;
+    }
+
+    .flashCard,
+    .clozeCard {
+      display: grid;
+      gap: 10px;
+      padding: 18px;
+      border-radius: 20px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      box-shadow: 0 10px 24px rgba(31, 42, 55, .06);
+    }
+
+    .flashCard {
+      place-items: center;
+      text-align: center;
+    }
+
+    .flashCard .frontWord {
+      margin: 0;
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: .01em;
+    }
+
+    .flashCard .frontHint {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .flashCard .backText {
+      display: grid;
+      gap: 6px;
+    }
+
+    .flashCard .backText strong {
+      font-size: 20px;
+    }
+
+    .flashCard .backText span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .clozeSentence {
+      font-size: 22px;
+      line-height: 1.45;
+      font-weight: 800;
+      letter-spacing: .01em;
+      margin: 0;
+    }
+
+    .clozeBlank {
+      color: var(--sky);
+      letter-spacing: .12em;
+      white-space: nowrap;
+    }
+
+    .clozeChoices {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .pictureGrid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .pictureCard {
+      min-height: 110px;
+      padding: 14px 12px;
+      display: grid;
+      gap: 8px;
+      place-items: center;
+      text-align: center;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 6px 18px rgba(31, 42, 55, .05);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+
+    .pictureCard .pictureEmoji {
+      font-size: 40px;
+      line-height: 1;
+    }
+
+    .pictureCard .pictureZh {
+      font-weight: 800;
+      font-size: 16px;
+    }
+
+    .pictureCard .pictureEn {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .pictureCard.correct {
+      border-color: var(--mint);
+      background: #ebfff4;
+    }
+
+    .pictureCard.wrong {
+      border-color: var(--coral);
+      background: #fff3f2;
+    }
+
+    .sortGame {
+      display: grid;
+      gap: 12px;
+    }
+
+    .sortBoard {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .sortBin {
+      display: grid;
+      gap: 10px;
+      min-height: 230px;
+      padding: 14px;
+      border-radius: 20px;
+      border: 1px dashed #c8d2df;
+      background: #f8fafc;
+    }
+
+    .sortBin.active {
+      border-color: var(--sky);
+      background: #eef4ff;
+    }
+
+    .sortBin h4 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .sortBin p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .sortPile {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      min-height: 66px;
+      padding: 12px;
+      border-radius: 16px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+    }
+
+    .sortCard {
+      min-height: 54px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      box-shadow: 0 4px 12px rgba(31, 42, 55, .05);
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .sortCard.dragging {
+      opacity: .45;
+    }
+
+    .sortCard.done {
+      border-color: var(--mint);
+      background: #ebfff4;
+      cursor: default;
+    }
+
+    .sentenceSlots .tile,
+    .sentenceSlots .chosenTile {
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .sentenceSlots .tile.dragging,
+    .sentenceSlots .chosenTile.dragging {
+      opacity: .5;
+    }
+
+    .sentenceSlots .dropHint {
+      border-color: var(--sky);
+      background: #eef4ff;
     }
 
     .spellInput {
@@ -369,6 +1353,7 @@
 
     .task span {
       color: var(--muted);
+      font-size: 12px;
     }
 
     .score {
@@ -387,6 +1372,10 @@
       color: var(--muted);
       font-size: 13px;
       line-height: 1.5;
+    }
+
+    .note.muted {
+      font-size: 12px;
     }
 
     .lessonText {
@@ -516,12 +1505,20 @@
     }
 
     @media (max-width: 860px) {
+      body {
+        padding: 0;
+        padding-bottom: 92px;
+      }
+
       .app {
         grid-template-columns: 1fr;
+        border-radius: 0;
+        min-height: 100vh;
       }
 
       aside {
         position: static;
+        min-height: auto;
       }
 
       main {
@@ -533,8 +1530,44 @@
         display: grid;
       }
 
+      .statusRow, .reviewGrid {
+        grid-template-columns: 1fr;
+      }
+
+      #storagePill {
+        grid-column: auto;
+      }
+
       .badge {
         white-space: normal;
+      }
+
+      .topbar {
+        position: static;
+      }
+
+      .quickNav {
+        overflow-x: auto;
+        padding-bottom: 4px;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .dockNav {
+        width: calc(100vw - 16px);
+        bottom: max(8px, env(safe-area-inset-bottom));
+        gap: 6px;
+        padding: 8px;
+        border-radius: 20px;
+      }
+
+      .dockBtn {
+        min-height: 76px;
+        padding: 8px 4px;
+      }
+
+      .dockBtn span {
+        font-size: 18px;
       }
 
       .tabs, .choices {
@@ -543,6 +1576,14 @@
     }
 
     @media (max-width: 520px) {
+      .dockBtn strong {
+        font-size: 11px;
+      }
+
+      .dockBtn small {
+        display: none;
+      }
+
       .tabs, .choices {
         grid-template-columns: 1fr;
       }
@@ -593,7 +1634,63 @@
         <div class="badge" id="paceBadge">推估進度：Unit 4 / Review 2 前後</div>
       </div>
 
-      <section class="dashboard">
+      <nav class="dockNav" aria-label="底部導覽">
+        <a class="dockBtn active" data-dock="dashboardPanel" data-accent="sky" href="#dashboardPanel">
+          <span>🧩</span>
+          <strong class="navCapsule">Home</strong>
+          <strong>主舞台</strong>
+          <small>單字與任務</small>
+        </a>
+        <a class="dockBtn" data-dock="lessonPanel" data-accent="violet" href="#lessonPanel">
+          <span>📖</span>
+          <strong class="navCapsule">Read</strong>
+          <strong>課文</strong>
+          <small>速讀句型</small>
+        </a>
+        <a class="dockBtn" data-dock="resourcesPanel" data-accent="amber" href="#resourcesPanel">
+          <span>🎧</span>
+          <strong class="navCapsule">Audio</strong>
+          <strong>資源</strong>
+          <small>官方音檔</small>
+        </a>
+        <a class="dockBtn" data-dock="practicePanel" data-accent="coral" href="#practicePanel">
+          <span>🎮</span>
+          <strong class="navCapsule">Play</strong>
+          <strong>遊戲</strong>
+          <small>練習模式</small>
+        </a>
+        <a class="dockBtn" data-dock="reviewPanel" data-accent="mint" href="#reviewPanel">
+          <span>✨</span>
+          <strong class="navCapsule">Track</strong>
+          <strong>回顧</strong>
+          <small>今日進度</small>
+        </a>
+      </nav>
+
+      <div class="quickNav" aria-label="快速導覽">
+        <a href="#dashboardPanel">單字與任務</a>
+        <a href="#lessonPanel">課文速讀</a>
+        <a href="#resourcesPanel">官方資源</a>
+        <a href="#practicePanel">練習遊戲</a>
+      </div>
+
+      <div class="statusRow" aria-live="polite">
+        <div class="statusPill loading" id="connectionPill">
+          <strong id="connectionTitle">正在檢查連線</strong>
+          <span id="connectionText">先確認瀏覽器與離線快取狀態。</span>
+        </div>
+        <div class="statusPill" id="cachePill">
+          <strong id="cacheTitle">離線快取待初始化</strong>
+          <span id="cacheText">首次載入完成後，首頁和教材可以離線重開。</span>
+        </div>
+        <div class="statusPill" id="storagePill">
+          <strong id="storageTitle">學習進度儲存在本機</strong>
+          <span id="storageText">換裝置不會自動同步，但重新打開會保留這台平板的紀錄。</span>
+          <span class="timestamp" id="storageTimestamp">尚未儲存</span>
+        </div>
+      </div>
+
+      <section class="dashboard" id="dashboardPanel">
         <div class="panel">
           <div class="panelHead">
             <h3>單字卡</h3>
@@ -603,10 +1700,49 @@
             </div>
           </div>
           <div class="wordCard">
-            <div>
-              <div class="emoji" id="wordEmoji">🦁</div>
-              <p class="word" id="wordText">lion</p>
+            <div class="coverRibbon">
+              <span class="coverChip">Wonder World 4</span>
+              <span class="coverChip">Unit 4</span>
+            </div>
+            <div class="wordCardInner">
+              <div class="cardTag">Picture Word</div>
+              <div class="cardUnit" id="cardUnitLabel">Unit 4 · At the Zoo</div>
+              <p class="cardSubtitle" id="cardUnitSub">Cover page for today's lesson</p>
+              <div class="cardFrame">
+                <div class="cardArt">
+                  <div class="posterScene" aria-hidden="true">
+                    <div class="posterSun"></div>
+                    <div class="posterCloud c1"></div>
+                    <div class="posterCloud c2"></div>
+                    <div class="posterCloud c3"></div>
+                    <div class="posterHill"></div>
+                    <div class="posterTree"></div>
+                    <div class="posterAnimal"></div>
+                  </div>
+                  <div class="emoji" id="wordEmoji">🦁</div>
+                  <p class="word" id="wordText">lion</p>
+                  <div class="cardBadgeRow">
+                    <span class="cardBadge">Speak</span>
+                    <span class="cardBadge">Cover</span>
+                  </div>
+                </div>
+              </div>
+              <div class="cardTheme" aria-hidden="true">
+                <div class="themeBar" id="cardThemeBar">
+                  <span class="themeDot" style="background:#2f80ed"></span>
+                  <span class="themeDot" style="background:#47b881"></span>
+                  <span class="themeDot" style="background:#f2a93b"></span>
+                  <span class="themeDot" style="background:#f97066"></span>
+                </div>
+                <div class="coverPalette" id="coverPalette">
+                  <span class="paletteBlock" style="--color:#2f80ed"></span>
+                  <span class="paletteBlock" style="--color:#47b881"></span>
+                  <span class="paletteBlock" style="--color:#f2a93b"></span>
+                  <span class="paletteBlock" style="--color:#f97066"></span>
+                </div>
+              </div>
               <p class="meaning" id="wordMeaning">獅子</p>
+              <p class="cardHint">點播放按鈕聽發音，左/右切換下一張。</p>
             </div>
           </div>
           <div class="panelBody">
@@ -622,7 +1758,10 @@
         <div class="panel">
           <div class="panelHead">
             <h3>今日任務</h3>
-            <button class="quiet" id="resetProgress">重置</button>
+            <div class="actions">
+              <button class="quiet" id="reviewProgress">看回顧</button>
+              <button class="quiet" id="resetProgress">重置</button>
+            </div>
           </div>
           <div class="panelBody">
             <div class="log" id="taskLog"></div>
@@ -630,7 +1769,38 @@
         </div>
       </section>
 
-      <section class="panel">
+      <section class="panel" id="reviewPanel">
+        <div class="panelHead">
+          <h3>進度回顧</h3>
+          <button class="quiet" id="jumpNextTask">繼續練習</button>
+        </div>
+        <div class="panelBody">
+          <div class="reviewGrid">
+            <div class="reviewCard">
+              <strong id="reviewUnit">Unit 4</strong>
+              <span>目前單元</span>
+              <p id="reviewUnitText">At the Zoo 正在練習。</p>
+            </div>
+            <div class="reviewCard">
+              <strong id="reviewDone">0 / 5</strong>
+              <span>今日完成</span>
+              <p id="reviewDoneText">先從最容易的單字卡開始也可以。</p>
+            </div>
+            <div class="reviewCard">
+              <strong id="reviewNext">聽音選字</strong>
+              <span>下一步</span>
+              <p id="reviewNextText">完成一題就會自動累積進度。</p>
+            </div>
+            <div class="reviewCard action">
+              <strong>目前狀態</strong>
+              <span>可立即回到接續的練習</span>
+              <p id="reviewStateText">頁面會保留這台裝置上的完成紀錄。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="lessonPanel">
         <div class="panelHead">
           <h3>課文速讀</h3>
           <button class="quiet" id="playLesson">連續播放</button>
@@ -641,7 +1811,7 @@
         </div>
       </section>
 
-      <section class="panel">
+      <section class="panel" id="resourcesPanel">
         <div class="panelHead">
           <h3>官方資源</h3>
           <a class="quiet" id="openOfficialAudio" href="https://945cloud.knsh.com.tw/CD/E/Study/kWW4/" target="_blank" rel="noopener">康軒音檔頁</a>
@@ -672,13 +1842,19 @@
         </div>
       </section>
 
-      <section class="panel">
+      <section class="panel" id="practicePanel">
         <div class="panelHead">
           <h3>練習遊戲</h3>
           <div class="tabs">
             <button class="tab active" data-game="listen">聽音選字</button>
             <button class="tab" data-game="spell">拼字</button>
             <button class="tab" data-game="sentence">句子重組</button>
+            <button class="tab" data-game="match">配對</button>
+            <button class="tab" data-game="sprint">快答</button>
+            <button class="tab" data-game="flash">閃卡翻面</button>
+            <button class="tab" data-game="cloze">句子填空</button>
+            <button class="tab" data-game="picture">聽句找圖</button>
+            <button class="tab" data-game="sort">單字分類</button>
             <button class="tab" data-game="review">複習</button>
           </div>
         </div>
@@ -802,8 +1978,7 @@
       wordIndex: Number(localStorage.getItem("wwc_word_index") || 0),
       game: "listen",
       audioUnit: "u4",
-      done: JSON.parse(localStorage.getItem("wwc_done") || "{}"),
-      sentenceTiles: []
+      done: JSON.parse(localStorage.getItem("wwc_done") || "{}")
     };
 
     const officialAudioBase = "https://listeningdata.knsh.com.tw/e/learnbook/cd/KWW4/";
@@ -840,6 +2015,29 @@
       ]
     };
 
+    const coverThemes = {
+      u1: ["#2f80ed", "#7c5cff", "#f2a93b", "#47b881"],
+      u2: ["#7c5cff", "#2f80ed", "#47b881", "#f97066"],
+      u3: ["#47b881", "#2f80ed", "#f2a93b", "#7c5cff"],
+      u4: ["#2f80ed", "#47b881", "#f2a93b", "#f97066"]
+    };
+
+    const practiceTasks = [
+      ["listen", "聽音選字", "先聽英文，再選正確意思"],
+      ["spell", "拼字", "看中文和提示拼出英文"],
+      ["sentence", "句子重組", "把句子排回正確順序"],
+      ["match", "配對", "把英文和中文配成一組"],
+      ["sprint", "快答", "限時選出正確答案"],
+      ["flash", "閃卡翻面", "先看圖再翻面記憶"],
+      ["cloze", "句子填空", "把句子中的關鍵字補回來"],
+      ["picture", "聽句找圖", "聽句子後選出對的圖卡"],
+      ["sort", "單字分類", "把單字拖到對的類別"],
+      ["review", "複習", "混合 Unit 3 和 Unit 4"],
+      ["known", "單字卡", "至少標記一張我會了"]
+    ];
+
+    let sprintTimerId = null;
+
     const $ = (id) => document.getElementById(id);
     const unit = () => lessons.find((item) => item.id === state.unitId) || lessons[3];
     const word = () => unit().words[state.wordIndex % unit().words.length];
@@ -857,6 +2055,20 @@
       localStorage.setItem("wwc_unit", state.unitId);
       localStorage.setItem("wwc_word_index", state.wordIndex);
       localStorage.setItem("wwc_done", JSON.stringify(state.done));
+      localStorage.setItem("wwc_last_saved", String(Date.now()));
+      renderConnectionState();
+    }
+
+    function formatRelativeTime(timestamp) {
+      if (!timestamp) return "尚未儲存";
+      const elapsed = Date.now() - timestamp;
+      if (elapsed < 30000) return "剛剛";
+      const minutes = Math.round(elapsed / 60000);
+      if (minutes < 60) return `${minutes} 分鐘前`;
+      const hours = Math.round(minutes / 60);
+      if (hours < 24) return `${hours} 小時前`;
+      const days = Math.round(hours / 24);
+      return `${days} 天前`;
     }
 
     function complete(key) {
@@ -864,6 +2076,7 @@
       save();
       renderProgress();
       renderTasks();
+      renderReviewPanel();
     }
 
     function renderNav() {
@@ -895,28 +2108,26 @@
 
     function renderWord() {
       const item = word();
+      $("cardUnitLabel").textContent = unit().title;
+      $("cardUnitSub").textContent = unit().subtitle;
+      const theme = coverThemes[state.unitId] || coverThemes.u4;
+      document.querySelectorAll("#cardThemeBar .themeDot, #coverPalette .paletteBlock").forEach((node, index) => {
+        node.style.background = theme[index % theme.length];
+      });
       $("wordEmoji").textContent = item.emoji;
       $("wordText").textContent = item.word;
       $("wordMeaning").textContent = item.zh;
     }
 
     function renderProgress() {
-      const keys = ["listen", "spell", "sentence", "review", "known"].map((name) => `${state.unitId}:${name}`);
+      const keys = practiceTasks.map(([name]) => `${state.unitId}:${name}`);
       const count = keys.filter((key) => state.done[key]).length;
-      $("dailyScore").textContent = `${count} / 5`;
-      $("dailyBar").style.width = `${Math.min(100, count * 20)}%`;
+      $("dailyScore").textContent = `${count} / ${practiceTasks.length}`;
+      $("dailyBar").style.width = `${Math.min(100, (count / practiceTasks.length) * 100)}%`;
     }
 
     function renderTasks() {
-      const tasks = [
-        ["listen", "聽音選字", "先聽英文，再選正確意思"],
-        ["spell", "拼字", "看中文和提示拼出英文"],
-        ["sentence", "句子重組", "把句子排回正確順序"],
-        ["review", "複習", "混合 Unit 3 和 Unit 4"],
-        ["known", "單字卡", "至少標記一張我會了"]
-      ];
-
-      $("taskLog").innerHTML = tasks.map(([key, title, desc]) => {
+      $("taskLog").innerHTML = practiceTasks.map(([key, title, desc]) => {
         const done = state.done[`${state.unitId}:${key}`];
         return `
           <div class="task">
@@ -927,26 +2138,82 @@
       }).join("");
     }
 
+    function getProgressSummary() {
+      const taskKeys = practiceTasks.map(([name]) => name);
+      const doneKeys = taskKeys.filter((name) => state.done[`${state.unitId}:${name}`]);
+      const firstIncomplete = taskKeys.find((name) => !state.done[`${state.unitId}:${name}`]);
+      return {
+        doneCount: doneKeys.length,
+        totalCount: taskKeys.length,
+        nextTask: firstIncomplete || "review",
+        nextLabel: {
+          listen: "聽音選字",
+          spell: "拼字",
+          sentence: "句子重組",
+          match: "配對",
+          sprint: "快答",
+          flash: "閃卡翻面",
+          cloze: "句子填空",
+          picture: "聽句找圖",
+          sort: "單字分類",
+          review: "複習",
+          known: "單字卡"
+        }[firstIncomplete || "review"],
+        isComplete: doneKeys.length === taskKeys.length
+      };
+    }
+
+    function renderReviewPanel() {
+      const summary = getProgressSummary();
+      const current = unit();
+      $("reviewUnit").textContent = current.title.split(" · ")[0];
+      $("reviewUnitText").textContent = current.title.replace(" · ", " - ");
+      $("reviewDone").textContent = `${summary.doneCount} / ${summary.totalCount}`;
+      $("reviewDoneText").textContent = summary.isComplete
+        ? "今天這一輪已完成，可以切去複習或換下一單元。"
+        : `還差 ${summary.totalCount - summary.doneCount} 項，先做 ${summary.nextLabel} 會最順。`;
+      $("reviewNext").textContent = summary.nextLabel;
+      $("reviewNextText").textContent = summary.isComplete
+        ? "如果想再練，可以切到複習模式繼續混合抽題。"
+        : `完成後會自動記錄到 ${current.title.split(" · ")[0]}。`;
+      $("reviewStateText").textContent = summary.isComplete
+        ? "目前這一單元已經全部打勾。"
+        : `下一步建議先做 ${summary.nextLabel}。`;
+      $("jumpNextTask").textContent = summary.isComplete ? "去複習" : `做 ${summary.nextLabel}`;
+      $("jumpNextTask").onclick = () => {
+        state.game = summary.isComplete ? "review" : summary.nextTask;
+        renderGame();
+      };
+      $("reviewProgress").onclick = () => {
+        state.game = summary.isComplete ? "review" : summary.nextTask;
+        renderGame();
+        window.scrollTo({ top: document.querySelector(".dashboard").offsetTop - 16, behavior: "smooth" });
+      };
+    }
+
     function renderLessonText() {
       const current = unit();
-      $("storyLines").innerHTML = (current.story || current.sentences).map((line, index) => `
+      const lines = current.story || current.sentences || [];
+      const patterns = current.patterns || [];
+
+      $("storyLines").innerHTML = lines.length ? lines.map((line, index) => `
         <li class="lineItem">
           <span class="lineNo">${index + 1}</span>
           <span class="lineText">${line}</span>
           <button class="soundBtn" data-story-line="${index}" title="播放這一句">▶</button>
         </li>
-      `).join("");
+      `).join("") : `<li class="emptyState">目前沒有課文句子，等教材內容補齊後就會顯示。</li>`;
 
-      $("keyPatterns").innerHTML = (current.patterns || []).map(([title, text]) => `
+      $("keyPatterns").innerHTML = patterns.length ? patterns.map(([title, text]) => `
         <div class="keyBlock">
           <strong>${title}</strong>
           <p>${text}</p>
         </div>
-      `).join("");
+      `).join("") : `<div class="emptyState">目前沒有句型整理。</div>`;
 
       document.querySelectorAll("[data-story-line]").forEach((button) => {
         button.addEventListener("click", () => {
-          const line = (current.story || current.sentences)[Number(button.dataset.storyLine)];
+          const line = lines[Number(button.dataset.storyLine)];
           speak(line);
         });
       });
@@ -957,12 +2224,13 @@
         button.classList.toggle("active", button.dataset.audioUnit === state.audioUnit);
       });
 
-      $("officialTracks").innerHTML = officialAudio[state.audioUnit].map(([fileName, title], index) => `
+      const tracks = officialAudio[state.audioUnit] || [];
+      $("officialTracks").innerHTML = tracks.length ? tracks.map(([fileName, title]) => `
         <button class="trackBtn" data-track="${fileName}" data-title="${title}">
           <strong>${title}</strong>
           <span>Track ${fileName.match(/Track(\d+)/)[1]}</span>
         </button>
-      `).join("");
+      `).join("") : `<div class="emptyState">目前這個單元沒有音檔清單。</div>`;
 
       document.querySelectorAll("[data-track]").forEach((button) => {
         button.addEventListener("click", () => {
@@ -978,7 +2246,67 @@
     }
 
     function shuffle(items) {
-      return [...items].sort(() => Math.random() - .5);
+      const next = [...items];
+      for (let i = next.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [next[i], next[j]] = [next[j], next[i]];
+      }
+      return next;
+    }
+
+    function normalizeSentence(text) {
+      return text.replace(/[?.!]/g, "").trim();
+    }
+
+    function findSentenceTarget(sentence, pool = unit().words) {
+      const lower = sentence.toLowerCase();
+      return pool.find((item) => lower.includes(item.word.toLowerCase()));
+    }
+
+    function getPictureQuestion() {
+      const sentence = shuffle(unit().sentences).find((line) => findSentenceTarget(line)) || unit().sentences[0];
+      const target = findSentenceTarget(sentence) || word();
+      const choices = shuffle(unit().words).slice(0, 4);
+      if (!choices.includes(target)) choices[0] = target;
+      return {
+        sentence,
+        target,
+        choices: shuffle(choices)
+      };
+    }
+
+    function getSortConfig() {
+      if (["u1", "u2"].includes(state.unitId)) {
+        return {
+          left: {
+            key: "room",
+            label: "房間",
+            hint: "把家裡空間拖進這裡",
+            items: lessons[0].words
+          },
+          right: {
+            key: "action",
+            label: "動作",
+            hint: "把正在做的事拖進這裡",
+            items: lessons[1].words
+          }
+        };
+      }
+
+      return {
+        left: {
+          key: "food",
+          label: "食物",
+          hint: "把午餐字彙拖進這裡",
+          items: lessons[2].words
+        },
+        right: {
+          key: "animal",
+          label: "動物",
+          hint: "把動物字彙拖進這裡",
+          items: lessons[3].words
+        }
+      };
     }
 
     function renderListenGame() {
@@ -1038,18 +2366,28 @@
 
     function renderSentenceGame() {
       const sentence = unit().sentences[Math.floor(Math.random() * unit().sentences.length)] || unit().sentences[0];
-      state.sentenceTiles = shuffle(sentence.replace(/[?.!]/g, "").split(" "));
-      const chosen = [];
+      const baseTiles = sentence.replace(/[?.!]/g, "").split(" ").map((text, index) => ({
+        id: index,
+        text
+      }));
+      let available = shuffle(baseTiles);
+      let chosen = [];
+      let draggedChosenIndex = null;
 
       function draw() {
         $("gameArea").innerHTML = `
-          <p class="note">把句子排好，再播放聽聽看。</p>
-          <div class="sentenceSlots" id="sentenceSlots">${chosen.map((item) => `<button class="tile chosen">${item}</button>`).join("")}</div>
-          <div class="tiles" id="tiles">${state.sentenceTiles.map((item, index) => `<button class="tile" data-index="${index}">${item}</button>`).join("")}</div>
+          <p class="note">把句子排好，再播放聽聽看。拖曳句子卡可以重新排序，也能點一下放回去。</p>
+          <div class="sentenceSlots" id="sentenceSlots">
+            ${chosen.length ? chosen.map((item, index) => `<button class="tile chosenTile" draggable="true" data-chosen-index="${index}">${item.text}</button>`).join("") : `<span class="note">先從下面選字開始</span>`}
+          </div>
+          <div class="tiles" id="tiles">
+            ${available.length ? available.map((item, index) => `<button class="tile" data-index="${index}">${item.text}</button>`).join("") : `<span class="note">已經全選完了</span>`}
+          </div>
           <div class="actions">
             <button class="primary" id="checkSentence">檢查</button>
             <button class="quiet" id="hearSentence">播放正確句子</button>
-            <button class="danger" id="resetSentence">重排</button>
+            <button class="quiet" id="reshuffleSentence">重排此句</button>
+            <button class="danger" id="resetSentence">換一句</button>
           </div>
           <div class="feedback" id="gameFeedback"></div>
         `;
@@ -1057,20 +2395,468 @@
         document.querySelectorAll("[data-index]").forEach((button) => {
           button.addEventListener("click", () => {
             const index = Number(button.dataset.index);
-            chosen.push(state.sentenceTiles.splice(index, 1)[0]);
+            chosen.push(available.splice(index, 1)[0]);
             draw();
           });
         });
+        document.querySelectorAll("[data-chosen-index]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const index = Number(button.dataset.chosenIndex);
+            available = [...available, chosen.splice(index, 1)[0]].sort((a, b) => a.id - b.id);
+            draw();
+          });
+          button.addEventListener("dragstart", (event) => {
+            draggedChosenIndex = Number(button.dataset.chosenIndex);
+            event.dataTransfer.effectAllowed = "move";
+            event.dataTransfer.setData("text/plain", String(draggedChosenIndex));
+            button.classList.add("dragging");
+          });
+          button.addEventListener("dragend", () => {
+            draggedChosenIndex = null;
+            button.classList.remove("dragging");
+            document.querySelectorAll(".dropHint").forEach((node) => node.classList.remove("dropHint"));
+          });
+          button.addEventListener("dragover", (event) => {
+            event.preventDefault();
+            if (draggedChosenIndex === null) return;
+            button.classList.add("dropHint");
+          });
+          button.addEventListener("dragleave", () => button.classList.remove("dropHint"));
+          button.addEventListener("drop", (event) => {
+            event.preventDefault();
+            button.classList.remove("dropHint");
+            const from = draggedChosenIndex;
+            const to = Number(button.dataset.chosenIndex);
+            if (from === null || Number.isNaN(from) || from === to) return;
+            const [moved] = chosen.splice(from, 1);
+            chosen.splice(to, 0, moved);
+            draw();
+          });
+        });
+        $("sentenceSlots").addEventListener("dragover", (event) => {
+          event.preventDefault();
+        });
+        $("sentenceSlots").addEventListener("drop", (event) => {
+          event.preventDefault();
+          const from = draggedChosenIndex;
+          if (from === null || Number.isNaN(from)) return;
+          const [moved] = chosen.splice(from, 1);
+          chosen.push(moved);
+          draw();
+        });
         $("checkSentence").addEventListener("click", () => {
-          const ok = chosen.join(" ") === sentence.replace(/[?.!]/g, "");
+          const ok = normalizeSentence(chosen.map((item) => item.text).join(" ")) === normalizeSentence(sentence);
           $("gameFeedback").textContent = ok ? "句子排對了。" : "順序再調一下。";
           if (ok) complete(`${state.unitId}:sentence`);
         });
         $("hearSentence").addEventListener("click", () => speak(sentence));
+        $("reshuffleSentence").addEventListener("click", () => {
+          available = shuffle(baseTiles);
+          chosen = [];
+          draw();
+        });
         $("resetSentence").addEventListener("click", () => renderSentenceGame());
       }
 
       draw();
+    }
+
+    function renderPictureGame() {
+      const question = getPictureQuestion();
+      const finalChoices = question.choices;
+
+      $("gameArea").innerHTML = `
+        <div class="sprintWrap">
+          <div class="sprintPrompt">
+            <p class="question">${question.sentence}</p>
+            <div class="timer">先聽句子，再找出對的圖卡。</div>
+          </div>
+          <div class="actions">
+            <button class="primary" id="playPicture">播放句子</button>
+            <button class="quiet" id="nextPicture">換一句</button>
+          </div>
+          <div class="pictureGrid">
+            ${finalChoices.map((item) => `
+              <button class="pictureCard" data-picture-answer="${item.word}">
+                <div class="pictureEmoji">${item.emoji}</div>
+                <strong class="pictureZh">${item.zh}</strong>
+                <span class="pictureEn">${item.word}</span>
+              </button>
+            `).join("")}
+          </div>
+          <div class="feedback" id="gameFeedback"></div>
+        </div>
+      `;
+
+      $("playPicture").addEventListener("click", () => speak(question.sentence));
+      $("nextPicture").addEventListener("click", renderPictureGame);
+      document.querySelectorAll("[data-picture-answer]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const ok = button.dataset.pictureAnswer === question.target.word;
+          button.classList.add(ok ? "correct" : "wrong");
+          $("gameFeedback").textContent = ok ? "找對圖了。" : `再聽一次，答案是 ${question.target.zh}`;
+          if (ok) complete(`${state.unitId}:picture`);
+          if (!ok) speak(question.sentence);
+        });
+      });
+    }
+
+    function renderSortGame() {
+      const config = getSortConfig();
+      const leftItems = shuffle([...config.left.items]).slice(0, Math.min(4, config.left.items.length));
+      const rightItems = shuffle([...config.right.items]).slice(0, Math.min(4, config.right.items.length));
+      const cards = shuffle([
+        ...leftItems.map((item) => ({ ...item, side: config.left.key })),
+        ...rightItems.map((item) => ({ ...item, side: config.right.key }))
+      ]);
+      const placed = new Map();
+      let draggingWord = null;
+
+      function draw() {
+        const leftPlaced = cards.filter((card) => placed.get(card.word) === config.left.key);
+        const rightPlaced = cards.filter((card) => placed.get(card.word) === config.right.key);
+        const pile = cards.filter((card) => !placed.has(card.word));
+
+        $("gameArea").innerHTML = `
+          <div class="sortGame">
+            <p class="note">把單字拖到對的分類盒。拖回中間可以重新整理。</p>
+            <div class="sortBoard">
+              <div class="sortBin" data-sort-bin="${config.left.key}">
+                <div>
+                  <h4>${config.left.label}</h4>
+                  <p>${config.left.hint}</p>
+                </div>
+                <div class="sortPile" data-sort-pile="${config.left.key}">
+                  ${leftPlaced.length ? leftPlaced.map((item) => `<button class="sortCard done" draggable="true" data-sort-word="${item.word}"><strong>${item.emoji} ${item.zh}</strong></button>`).join("") : `<span class="note">拖進來</span>`}
+                </div>
+              </div>
+              <div class="sortBin" data-sort-bin="${config.right.key}">
+                <div>
+                  <h4>${config.right.label}</h4>
+                  <p>${config.right.hint}</p>
+                </div>
+                <div class="sortPile" data-sort-pile="${config.right.key}">
+                  ${rightPlaced.length ? rightPlaced.map((item) => `<button class="sortCard done" draggable="true" data-sort-word="${item.word}"><strong>${item.emoji} ${item.zh}</strong></button>`).join("") : `<span class="note">拖進來</span>`}
+                </div>
+              </div>
+            </div>
+            <div class="sortPile" data-sort-pile="tray">
+              ${pile.length ? pile.map((item) => `<button class="sortCard" draggable="true" data-sort-word="${item.word}"><strong>${item.emoji} ${item.zh}</strong><br><span class="note">${item.word}</span></button>`).join("") : `<span class="note">已經全部分類完成</span>`}
+            </div>
+            <div class="actions">
+              <button class="quiet" id="resetSort">重新洗牌</button>
+            </div>
+            <div class="feedback" id="gameFeedback"></div>
+          </div>
+        `;
+
+        document.querySelectorAll("[data-sort-word]").forEach((button) => {
+          button.addEventListener("dragstart", (event) => {
+            draggingWord = button.dataset.sortWord;
+            event.dataTransfer.effectAllowed = "move";
+            event.dataTransfer.setData("text/plain", draggingWord);
+            button.classList.add("dragging");
+          });
+          button.addEventListener("dragend", () => {
+            draggingWord = null;
+            button.classList.remove("dragging");
+            document.querySelectorAll(".sortBin").forEach((node) => node.classList.remove("active"));
+          });
+        });
+
+        document.querySelectorAll("[data-sort-bin], [data-sort-pile]").forEach((zone) => {
+          zone.addEventListener("dragover", (event) => {
+            event.preventDefault();
+            zone.classList.add("active");
+          });
+          zone.addEventListener("dragleave", () => zone.classList.remove("active"));
+          zone.addEventListener("drop", (event) => {
+            event.preventDefault();
+            zone.classList.remove("active");
+            const wordId = draggingWord || event.dataTransfer.getData("text/plain");
+            if (!wordId) return;
+            const item = cards.find((card) => card.word === wordId);
+            if (!item) return;
+            const targetBin = zone.dataset.sortBin || zone.dataset.sortPile;
+            if (targetBin === "tray") {
+              placed.delete(wordId);
+              draw();
+              return;
+            }
+            if (targetBin !== item.side) {
+              $("gameFeedback").textContent = "再想一下，這張卡不屬於這個分類。";
+              return;
+            }
+            placed.set(wordId, targetBin);
+            $("gameFeedback").textContent = `放對了：${item.zh}`;
+            if (placed.size === cards.length) {
+              complete(`${state.unitId}:sort`);
+            }
+            draw();
+          });
+        });
+
+        $("resetSort").addEventListener("click", renderSortGame);
+      }
+
+      draw();
+    }
+
+    function renderMatchGame() {
+      const picks = shuffle(unit().words).slice(0, 4);
+      const cards = shuffle([
+        ...picks.map((item) => ({ id: item.word, kind: "en", label: item.word, hint: item.emoji })),
+        ...picks.map((item) => ({ id: item.word, kind: "zh", label: item.zh, hint: item.emoji }))
+      ]);
+      let selected = [];
+      let matched = new Set();
+      let locked = false;
+
+      function draw() {
+        $("gameArea").innerHTML = `
+          <p class="note">翻開兩張卡，配對英文和中文。</p>
+          <div class="matchGrid">
+            ${cards.map((card, index) => {
+              const isSelected = selected.includes(index);
+              const isMatched = matched.has(card.id);
+              return `
+                <button class="matchCard ${isSelected ? "selected" : ""} ${isMatched ? "matched" : ""}" data-match-index="${index}" ${isMatched || locked ? "disabled" : ""}>
+                  <strong>${card.label}</strong>
+                  <small>${card.hint}</small>
+                </button>
+              `;
+            }).join("")}
+          </div>
+          <div class="feedback" id="gameFeedback"></div>
+        `;
+
+        document.querySelectorAll("[data-match-index]").forEach((button) => {
+          button.addEventListener("click", () => {
+            if (locked) return;
+            const index = Number(button.dataset.matchIndex);
+            if (selected.includes(index)) return;
+            selected = [...selected, index];
+            if (selected.length < 2) {
+              draw();
+              return;
+            }
+
+            const [aIdx, bIdx] = selected;
+            const a = cards[aIdx];
+            const b = cards[bIdx];
+            const isPair = a.id === b.id && a.kind !== b.kind;
+
+            if (isPair) {
+              matched.add(a.id);
+              selected = [];
+              $("gameFeedback").textContent = "配對成功。";
+              if (matched.size === picks.length) complete(`${state.unitId}:match`);
+              draw();
+              return;
+            }
+
+            locked = true;
+            $("gameFeedback").textContent = "再試一次。";
+            draw();
+            setTimeout(() => {
+              selected = [];
+              locked = false;
+              draw();
+            }, 650);
+          });
+        });
+      }
+
+      draw();
+    }
+
+    function renderFlashGame() {
+      const current = word();
+      const picks = shuffle(unit().words).slice(0, 4);
+      if (!picks.includes(current)) picks[0] = current;
+      const choices = shuffle(picks);
+      let revealed = false;
+
+      function draw() {
+        $("gameArea").innerHTML = `
+          <div class="flashWrap">
+            <div class="flashCard">
+              ${revealed ? `
+                <div class="backText">
+                  <strong>${current.zh}</strong>
+                  <span>${current.word} · ${current.emoji}</span>
+                </div>
+              ` : `
+                <div>
+                  <div class="emoji" style="font-size:52px">${current.emoji}</div>
+                  <p class="frontWord">${current.word}</p>
+                  <p class="frontHint">先記住畫面，再點翻面回答</p>
+                </div>
+              `}
+            </div>
+            <div class="actions">
+              <button class="primary" id="toggleFlash">${revealed ? "再看一次" : "翻面"}</button>
+              <button class="quiet" id="nextFlash">換一張</button>
+            </div>
+            ${revealed ? `
+              <div class="clozeChoices">
+                ${choices.map((item) => `<button class="choice" data-flash-answer="${item.word}">${item.zh}</button>`).join("")}
+              </div>
+            ` : `<p class="note">翻面後再選出正確中文。</p>`}
+            <div class="feedback" id="gameFeedback"></div>
+          </div>
+        `;
+
+        $("toggleFlash").addEventListener("click", () => {
+          revealed = !revealed;
+          draw();
+        });
+        $("nextFlash").addEventListener("click", renderFlashGame);
+        document.querySelectorAll("[data-flash-answer]").forEach((button) => {
+          button.addEventListener("click", () => {
+            const ok = button.dataset.flashAnswer === current.word;
+            button.classList.add(ok ? "correct" : "wrong");
+            $("gameFeedback").textContent = ok ? "記住了這張卡。" : `再看一次，答案是 ${current.zh}`;
+            if (ok) complete(`${state.unitId}:flash`);
+            if (!ok) {
+              revealed = true;
+              draw();
+            }
+          });
+        });
+      }
+
+      draw();
+    }
+
+    function renderClozeGame() {
+      const sentence = unit().sentences[Math.floor(Math.random() * unit().sentences.length)] || unit().sentences[0];
+      const tokens = sentence.replace(/[?.!]/g, "").split(" ").filter(Boolean);
+      const targetIndex = tokens.findIndex((word) => word.length > 2);
+      const hideIndex = targetIndex >= 0 ? targetIndex : 0;
+      const answer = tokens[hideIndex];
+      const blanked = tokens.map((token, index) => index === hideIndex ? "____" : token);
+      const pool = shuffle([
+        ...new Set([
+          answer,
+          ...tokens.filter((token) => token !== answer),
+          ...unit().words.map((item) => item.word)
+        ])
+      ]).slice(0, 4);
+      if (!pool.includes(answer)) pool[0] = answer;
+      const choices = shuffle(pool);
+
+      $("gameArea").innerHTML = `
+        <div class="clozeWrap">
+          <div class="clozeCard">
+            <p class="note">把句子補完整，再播放確認意思。</p>
+            <p class="clozeSentence">${blanked.map((token) => token === "____" ? `<span class="clozeBlank">____</span>` : token).join(" ")}</p>
+          </div>
+          <div class="clozeChoices">
+            ${choices.map((item) => `<button class="choice" data-cloze-answer="${item}">${item}</button>`).join("")}
+          </div>
+          <div class="actions">
+            <button class="quiet" id="hearCloze">播放句子</button>
+            <button class="quiet" id="nextCloze">換一句</button>
+          </div>
+          <div class="feedback" id="gameFeedback"></div>
+        </div>
+      `;
+
+      $("hearCloze").addEventListener("click", () => speak(sentence));
+      $("nextCloze").addEventListener("click", renderClozeGame);
+      document.querySelectorAll("[data-cloze-answer]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const ok = button.dataset.clozeAnswer === answer;
+          button.classList.add(ok ? "correct" : "wrong");
+          $("gameFeedback").textContent = ok ? "句子補對了。" : `再想一次，關鍵字是 ${answer}`;
+          if (ok) complete(`${state.unitId}:cloze`);
+          if (!ok) speak(sentence);
+        });
+      });
+    }
+
+    function renderSprintGame() {
+      const question = shuffle(unit().words)[0];
+      const choices = shuffle(unit().words).slice(0, 4);
+      if (!choices.includes(question)) choices[0] = question;
+      const finalChoices = shuffle(choices);
+      let timeLeft = 8;
+      let active = false;
+      let finished = false;
+
+      function stopTimer() {
+        if (sprintTimerId) clearInterval(sprintTimerId);
+        sprintTimerId = null;
+      }
+
+      function tick() {
+        $("sprintTimer").textContent = `${timeLeft} 秒`;
+        $("sprintBar").style.width = `${Math.max(0, (timeLeft / 8) * 100)}%`;
+      }
+
+      function endGame(message) {
+        if (finished) return;
+        finished = true;
+        active = false;
+        stopTimer();
+        $("gameFeedback").textContent = message;
+      }
+
+      function startRound() {
+        stopTimer();
+        timeLeft = 8;
+        active = true;
+        finished = false;
+        $("gameFeedback").textContent = "開始！";
+        tick();
+        sprintTimerId = setInterval(() => {
+          timeLeft -= 1;
+          tick();
+          if (timeLeft <= 0) {
+            endGame(`時間到，答案是 ${question.word}`);
+          }
+        }, 1000);
+      }
+
+      $("gameArea").innerHTML = `
+        <div class="sprintWrap">
+          <div class="sprintPrompt">
+            <p class="question">${question.emoji} ${question.zh}</p>
+            <div class="timer" id="sprintTimer">8 秒</div>
+            <div class="sprintBar"><span id="sprintBar"></span></div>
+          </div>
+          <div class="actions">
+            <button class="primary" id="startSprint">開始</button>
+            <button class="quiet" id="nextSprint">換題</button>
+          </div>
+          <div class="choices">
+            ${finalChoices.map((item) => `<button class="choice" data-sprint-answer="${item.word}">${item.word}</button>`).join("")}
+          </div>
+          <div class="feedback" id="gameFeedback"></div>
+        </div>
+      `;
+
+      $("startSprint").addEventListener("click", startRound);
+      $("nextSprint").addEventListener("click", () => {
+        stopTimer();
+        renderSprintGame();
+      });
+      document.querySelectorAll("[data-sprint-answer]").forEach((button) => {
+        button.addEventListener("click", () => {
+          if (!active || finished) return;
+          const ok = button.dataset.sprintAnswer === question.word;
+          if (ok) {
+            $("gameFeedback").textContent = "答對了，手很快。";
+            complete(`${state.unitId}:sprint`);
+            endGame("過關！");
+          } else {
+            $("gameFeedback").textContent = "再快一點。";
+          }
+        });
+      });
+
+      tick();
     }
 
     function renderReviewGame() {
@@ -1100,12 +2886,24 @@
     }
 
     function renderGame() {
+      if (sprintTimerId) {
+        clearInterval(sprintTimerId);
+        sprintTimerId = null;
+      }
       document.querySelectorAll("[data-game]").forEach((button) => {
         button.classList.toggle("active", button.dataset.game === state.game);
       });
+      const summary = getProgressSummary();
+      $("jumpNextTask").textContent = summary.isComplete ? "去複習" : `做 ${summary.nextLabel}`;
       if (state.game === "listen") renderListenGame();
       if (state.game === "spell") renderSpellGame();
       if (state.game === "sentence") renderSentenceGame();
+      if (state.game === "match") renderMatchGame();
+      if (state.game === "sprint") renderSprintGame();
+      if (state.game === "flash") renderFlashGame();
+      if (state.game === "cloze") renderClozeGame();
+      if (state.game === "picture") renderPictureGame();
+      if (state.game === "sort") renderSortGame();
       if (state.game === "review") renderReviewGame();
     }
 
@@ -1149,15 +2947,70 @@
       recognition.start();
     }
 
+    function renderConnectionState() {
+      const online = navigator.onLine;
+      $("connectionPill").className = `statusPill ${online ? "online" : "offline"}`;
+      $("connectionTitle").textContent = online ? "目前是線上" : "目前離線";
+      $("connectionText").textContent = online
+        ? "官方資源可直接嘗試播放；離線快取也已準備好首頁內容。"
+        : "首頁與已快取內容可繼續使用，外部影音可能暫時無法播放。";
+      const swControlled = Boolean(navigator.serviceWorker && navigator.serviceWorker.controller);
+      $("cachePill").className = `statusPill ${swControlled ? "online" : "loading"}`;
+      $("cacheTitle").textContent = swControlled ? "離線快取已可用" : "離線快取初始化中";
+      $("cacheText").textContent = swControlled
+        ? "重新整理後，首頁可以直接從快取開啟。"
+        : "第一次載入時正在建立快取，完成後就能更順地離線重開。";
+      const summary = getProgressSummary();
+      $("storageTitle").textContent = "學習進度儲存在本機";
+      $("storageText").textContent = summary.isComplete
+        ? "這一單元的今日任務已經全部完成。"
+        : "換裝置不會同步，但這台平板的完成紀錄會保留。";
+      $("storageTimestamp").textContent = `最近儲存：${formatRelativeTime(Number(localStorage.getItem("wwc_last_saved") || 0))}`;
+    }
+
+    function setDockActive(targetId) {
+      document.querySelectorAll("[data-dock]").forEach((button) => {
+        button.classList.toggle("active", button.dataset.dock === targetId);
+      });
+    }
+
+    function initDockObserver() {
+      const targets = ["dashboardPanel", "lessonPanel", "resourcesPanel", "practicePanel", "reviewPanel"]
+        .map((id) => document.getElementById(id))
+        .filter(Boolean);
+
+      if (!targets.length) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setDockActive(visible.target.id);
+      }, {
+        root: null,
+        threshold: [0.2, 0.35, 0.5],
+        rootMargin: "-35% 0px -45% 0px"
+      });
+
+      targets.forEach((target) => observer.observe(target));
+      setDockActive("dashboardPanel");
+
+      document.querySelectorAll("[data-dock]").forEach((button) => {
+        button.addEventListener("click", () => setDockActive(button.dataset.dock));
+      });
+    }
+
     function render() {
       renderNav();
       renderHeader();
       renderWord();
       renderProgress();
       renderTasks();
+      renderReviewPanel();
       renderLessonText();
       renderOfficialAudio();
       renderGame();
+      renderConnectionState();
     }
 
     $("prevWord").addEventListener("click", prevWord);
@@ -1171,6 +3024,9 @@
       save();
       render();
     });
+
+    window.addEventListener("online", renderConnectionState);
+    window.addEventListener("offline", renderConnectionState);
 
     document.querySelectorAll("[data-game]").forEach((button) => {
       button.addEventListener("click", () => {
@@ -1190,6 +3046,7 @@
       });
     });
 
+    initDockObserver();
     render();
 
     if ("serviceWorker" in navigator) {
@@ -1200,7 +3057,11 @@
         window.location.reload();
       });
       navigator.serviceWorker.register("./service-worker.js").then((registration) => {
+        renderConnectionState();
         registration.update();
+        navigator.serviceWorker.ready.then(() => {
+          renderConnectionState();
+        });
       }).catch(() => {
         // Service workers need a secure origin. LAN HTTP still works online.
       });

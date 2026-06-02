@@ -93,7 +93,7 @@ systemctl --user stop wonder-world-coach.service
 
 ## 目前狀態
 
-- 這是可在家裡區網使用的第一版原型。
+- 這是可在家裡區網使用的第一版原型，首頁已補上離線/連線狀態與進度回顧。
 - Unit 4 已依 Peter 提供的課本照片補入正式單字、句型與課文速讀；Unit 1-3 仍是示範/推估資料。
 - 官方資源已接入：
   - https://945cloud.knsh.com.tw/CD/E/Study/kWW4/
