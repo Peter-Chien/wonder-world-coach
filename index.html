@@ -43,7 +43,7 @@
         radial-gradient(circle at top right, rgba(47, 128, 237, .16), transparent 28%),
         linear-gradient(135deg, #eef4ff 0%, #fdfbf5 52%, #edf8f3 100%);
       padding: 20px;
-      padding-bottom: 112px;
+      padding-bottom: 160px;
       min-height: 100vh;
     }
 
@@ -333,7 +333,7 @@
     .dockNav {
       position: fixed;
       left: 50%;
-      bottom: max(16px, env(safe-area-inset-bottom));
+      bottom: max(8px, env(safe-area-inset-bottom));
       transform: translateX(-50%);
       width: min(860px, calc(100vw - 32px));
       display: grid;
@@ -348,6 +348,18 @@
         0 1px 0 rgba(255, 255, 255, .6) inset;
       backdrop-filter: blur(18px);
       z-index: 12;
+    }
+
+    .dockToggle {
+      display: none;
+    }
+
+    .dockScrim {
+      display: none;
+    }
+
+    .dockSheetBar {
+      display: none;
     }
 
     .dockBtn {
@@ -1507,7 +1519,7 @@
     @media (max-width: 860px) {
       body {
         padding: 0;
-        padding-bottom: 92px;
+        padding-bottom: 132px;
       }
 
       .app {
@@ -1554,20 +1566,87 @@
       }
 
       .dockNav {
-        width: calc(100vw - 16px);
-        bottom: max(8px, env(safe-area-inset-bottom));
-        gap: 6px;
-        padding: 8px;
-        border-radius: 20px;
+        left: 0;
+        bottom: 0;
+        width: 100vw;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 4px;
+        padding: 8px 8px calc(max(8px, env(safe-area-inset-bottom)) + 10px);
+        border-radius: 24px 24px 0 0;
+        background: rgba(250, 251, 253, .98);
+        box-shadow:
+          0 -8px 24px rgba(31, 42, 55, .12),
+          0 1px 0 rgba(255, 255, 255, .72) inset;
+        transform: translateX(0);
+        opacity: 1;
+        pointer-events: auto;
+        transition: background .18s ease, box-shadow .18s ease;
+      }
+
+      .dockSheetBar {
+        display: none;
+      }
+
+      .dockSheetBar span {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: .04em;
+        color: rgba(248, 251, 252, .72);
+        text-transform: uppercase;
+      }
+
+      .dockClose {
+        display: none;
+      }
+
+      .dockNav.is-open {
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: auto;
+      }
+
+      .dockScrim {
+        display: none;
       }
 
       .dockBtn {
-        min-height: 76px;
-        padding: 8px 4px;
+        min-height: 66px;
+        padding: 6px 4px 10px;
+        border-radius: 18px;
+        background: transparent;
       }
 
       .dockBtn span {
-        font-size: 18px;
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+      }
+
+      .dockBtn strong {
+        font-size: 12px;
+        letter-spacing: 0;
+      }
+
+      .dockBtn small {
+        display: none;
+      }
+
+      .dockBtn.active {
+        background: linear-gradient(180deg, rgba(255, 255, 255, .98), rgba(238, 244, 255, .96));
+        box-shadow:
+          0 6px 16px rgba(31, 42, 55, .12),
+          0 0 0 1px rgba(47, 128, 237, .10) inset;
+        transform: translateY(-2px);
+      }
+
+      .dockBtn.active::after {
+        bottom: 4px;
+        height: 3px;
+        width: 24px;
+      }
+
+      .dockToggle {
+        display: none;
       }
 
       .tabs, .choices {
@@ -1633,39 +1712,6 @@
         </div>
         <div class="badge" id="paceBadge">推估進度：Unit 4 / Review 2 前後</div>
       </div>
-
-      <nav class="dockNav" aria-label="底部導覽">
-        <a class="dockBtn active" data-dock="dashboardPanel" data-accent="sky" href="#dashboardPanel">
-          <span>🧩</span>
-          <strong class="navCapsule">Home</strong>
-          <strong>主舞台</strong>
-          <small>單字與任務</small>
-        </a>
-        <a class="dockBtn" data-dock="lessonPanel" data-accent="violet" href="#lessonPanel">
-          <span>📖</span>
-          <strong class="navCapsule">Read</strong>
-          <strong>課文</strong>
-          <small>速讀句型</small>
-        </a>
-        <a class="dockBtn" data-dock="resourcesPanel" data-accent="amber" href="#resourcesPanel">
-          <span>🎧</span>
-          <strong class="navCapsule">Audio</strong>
-          <strong>資源</strong>
-          <small>官方音檔</small>
-        </a>
-        <a class="dockBtn" data-dock="practicePanel" data-accent="coral" href="#practicePanel">
-          <span>🎮</span>
-          <strong class="navCapsule">Play</strong>
-          <strong>遊戲</strong>
-          <small>練習模式</small>
-        </a>
-        <a class="dockBtn" data-dock="reviewPanel" data-accent="mint" href="#reviewPanel">
-          <span>✨</span>
-          <strong class="navCapsule">Track</strong>
-          <strong>回顧</strong>
-          <small>今日進度</small>
-        </a>
-      </nav>
 
       <div class="quickNav" aria-label="快速導覽">
         <a href="#dashboardPanel">單字與任務</a>
@@ -1864,6 +1910,49 @@
       </section>
     </main>
   </div>
+
+  <nav class="dockNav" id="dockNav" aria-label="底部導覽">
+    <div class="dockSheetBar">
+      <button class="dockClose" type="button">收合</button>
+    </div>
+    <a class="dockBtn active" data-dock="dashboardPanel" data-accent="sky" href="#dashboardPanel">
+      <span>🧩</span>
+      <strong class="navCapsule">Home</strong>
+      <strong>主舞台</strong>
+      <small>單字與任務</small>
+    </a>
+    <a class="dockBtn" data-dock="lessonPanel" data-accent="violet" href="#lessonPanel">
+      <span>📖</span>
+      <strong class="navCapsule">Read</strong>
+      <strong>課文</strong>
+      <small>速讀句型</small>
+    </a>
+    <a class="dockBtn" data-dock="resourcesPanel" data-accent="amber" href="#resourcesPanel">
+      <span>🎧</span>
+      <strong class="navCapsule">Audio</strong>
+      <strong>資源</strong>
+      <small>官方音檔</small>
+    </a>
+    <a class="dockBtn" data-dock="practicePanel" data-accent="coral" href="#practicePanel">
+      <span>🎮</span>
+      <strong class="navCapsule">Play</strong>
+      <strong>遊戲</strong>
+      <small>練習模式</small>
+    </a>
+    <a class="dockBtn" data-dock="reviewPanel" data-accent="mint" href="#reviewPanel">
+      <span>✨</span>
+      <strong class="navCapsule">Track</strong>
+      <strong>回顧</strong>
+      <small>今日進度</small>
+    </a>
+  </nav>
+
+  <button class="dockToggle" type="button" aria-controls="dockNav" aria-expanded="false">
+    <span>☰</span>
+    <strong>選單</strong>
+  </button>
+
+  <div class="dockScrim" aria-hidden="true"></div>
 
   <script>
     const lessons = [
@@ -3000,6 +3089,80 @@
       });
     }
 
+    function initDockCollapse() {
+      const dock = document.querySelector(".dockNav");
+      const toggle = document.querySelector(".dockToggle");
+      const scrim = document.querySelector(".dockScrim");
+      const closeBtn = document.querySelector(".dockClose");
+      if (!dock || !toggle || !scrim || !closeBtn) return;
+
+      const mobileQuery = window.matchMedia("(max-width: 860px)");
+      let autoCloseTimer = null;
+      let lastScrollY = window.scrollY;
+
+      const setToggleLabel = (open) => {
+        toggle.setAttribute("aria-expanded", String(open));
+        toggle.lastElementChild.textContent = open ? "收合" : "選單";
+        toggle.classList.toggle("is-open", open);
+      };
+
+      const closeDock = () => {
+        dock.classList.remove("is-open");
+        scrim.classList.remove("is-open");
+        setToggleLabel(false);
+        if (autoCloseTimer) {
+          clearTimeout(autoCloseTimer);
+          autoCloseTimer = null;
+        }
+      };
+
+      const openDock = () => {
+        dock.classList.add("is-open");
+        scrim.classList.add("is-open");
+        setToggleLabel(true);
+        if (autoCloseTimer) clearTimeout(autoCloseTimer);
+        autoCloseTimer = window.setTimeout(() => {
+          if (mobileQuery.matches) closeDock();
+        }, 3000);
+      };
+
+      toggle.addEventListener("click", () => {
+        if (dock.classList.contains("is-open")) {
+          closeDock();
+        } else {
+          openDock();
+        }
+      });
+
+      dock.querySelectorAll("[data-dock]").forEach((button) => {
+        button.addEventListener("click", () => {
+          if (mobileQuery.matches) {
+            window.setTimeout(closeDock, 180);
+          }
+        });
+      });
+
+      closeBtn.addEventListener("click", closeDock);
+      scrim.addEventListener("click", closeDock);
+
+      window.addEventListener("scroll", () => {
+        if (!mobileQuery.matches) return;
+        const currentY = window.scrollY;
+        const delta = currentY - lastScrollY;
+        lastScrollY = currentY;
+        if (delta > 24 && dock.classList.contains("is-open")) {
+          closeDock();
+        }
+      }, { passive: true });
+
+      window.addEventListener("resize", () => {
+        if (!mobileQuery.matches) closeDock();
+      });
+
+      closeDock();
+      if (mobileQuery.matches) return;
+    }
+
     function render() {
       renderNav();
       renderHeader();
@@ -3047,6 +3210,7 @@
     });
 
     initDockObserver();
+    initDockCollapse();
     render();
 
     if ("serviceWorker" in navigator) {
